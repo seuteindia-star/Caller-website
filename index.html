@@ -1425,7 +1425,7 @@
             const docEl = document.documentElement;
             if (!document.fullscreenElement) {
                 if (docEl.requestFullscreen) {
-                    docEl.requestFullscreen().catch(() => {});
+                  // docEl.requestFullscreen().catch(() => {});
                 }
             } else if (!forceEnter) {
                 if (document.exitFullscreen) {
