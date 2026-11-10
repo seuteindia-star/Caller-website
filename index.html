@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>CallEscape Pro — Free Fake Call Simulator (iOS 18 & Android)</title>
-    <meta name="description" content="Trigger a realistic fake incoming phone call on iPhone or Android to escape awkward dates, boring meetings, or social situations. Custom caller ID, real ringtones, and stealth timer.">
+    <title>CallEscape — 1-Tap Fake Call Simulator (iOS 18)</title>
+    <meta name="description" content="Trigger a realistic incoming phone call from Dad, Mom, Wife, or any custom name in 1 tap. Real iPhone, Samsung & Xiaomi ringtones with pitch-black stealth timer.">
     <meta name="keywords" content="fake call online, fake incoming call, schedule fake call, fake iphone call screen, prank call simulator, call escape">
     <link rel="canonical" href="https://fake-caller-website.vercel.app/">
 
     <!-- Open Graph / WhatsApp / Social Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fake-caller-website.vercel.app/">
-    <meta property="og:title" content="CallEscape Pro — Realistic Fake Call Simulator">
-    <meta property="og:description" content="Get out of any awkward situation instantly. Schedule a realistic iOS or Android incoming call with real ringtones and stealth blackout timer.">
+    <meta property="og:title" content="CallEscape — 1-Tap Fake Call Simulator">
+    <meta property="og:description" content="Escape any awkward meeting or date in 2 seconds. Pick Dad, Mom, Wife, or type any name and ring your phone with real ringtones.">
 
     <!-- PWA / Home Screen App Capable -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#090d16">
+    <meta name="theme-color" content="#000000">
 
     <!-- JSON-LD SoftwareApplication Schema for Google Rich Snippets -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "CallEscape Pro",
+      "name": "CallEscape",
       "operatingSystem": "Web, iOS, Android",
       "applicationCategory": "UtilitiesApplication",
       "url": "https://fake-caller-website.vercel.app/",
@@ -43,69 +43,93 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            background-color: #020617;
+        :root {
+            --apple-green: #34C759;
+            --apple-red: #FF3B30;
+            --apple-blue: #007AFF;
+            --apple-pink: #FF2D55;
         }
 
-        /* iOS 18 Backdrop Blur & Frosted Glass */
-        .ios-blur {
-            background: radial-gradient(circle at 50% 20%, rgba(55, 65, 81, 0.88) 0%, rgba(17, 24, 39, 0.96) 65%, rgba(9, 13, 22, 0.99) 100%);
-            backdrop-filter: blur(40px) saturate(190%);
-            -webkit-backdrop-filter: blur(40px) saturate(190%);
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            background-color: #000000;
+            background-image: 
+                radial-gradient(at 15% 15%, rgba(0, 122, 255, 0.16) 0px, transparent 50%),
+                radial-gradient(at 85% 20%, rgba(255, 45, 85, 0.12) 0px, transparent 45%),
+                radial-gradient(at 50% 90%, rgba(52, 199, 89, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Cupertino Frosted Glass Card */
+        .apple-card {
+            background: rgba(28, 28, 30, 0.78);
+            backdrop-filter: blur(35px) saturate(190%);
+            -webkit-backdrop-filter: blur(35px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            box-shadow: 0 28px 60px -15px rgba(0, 0, 0, 0.85);
+        }
+
+        /* 2x2 Caller Tile Base & Active States */
+        .caller-tile {
+            background: rgba(44, 44, 46, 0.65);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .caller-tile:hover {
+            background: rgba(58, 58, 60, 0.75);
+        }
+        .caller-tile.selected-tile {
+            background: rgba(0, 122, 255, 0.16);
+            border-color: #007AFF;
+            box-shadow: 0 0 0 1px rgba(0, 122, 255, 0.35), 0 8px 20px -4px rgba(0, 122, 255, 0.25);
+        }
+
+        /* Apple Segmented Control */
+        .segmented-bg {
+            background: rgba(118, 118, 128, 0.24);
+        }
+        .segment-pill {
+            transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .segment-pill.active-segment {
+            background: rgba(255, 255, 255, 0.96);
+            color: #000000;
+            font-weight: 700;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        /* iOS 18 Incoming Call Wallpaper Blur */
+        .ios-call-wallpaper {
+            background: 
+                radial-gradient(circle at 50% 18%, rgba(68, 78, 102, 0.9) 0%, rgba(22, 27, 38, 0.96) 58%, rgba(8, 10, 15, 0.99) 100%);
+            backdrop-filter: blur(45px) saturate(200%);
+            -webkit-backdrop-filter: blur(45px) saturate(200%);
         }
 
         .ios-btn-glass {
             background: rgba(255, 255, 255, 0.16);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            transition: all 0.18s ease;
         }
         .ios-btn-glass:active, .ios-btn-glass.active-toggle {
             background: rgba(255, 255, 255, 0.95);
-            color: #0f172a;
+            color: #000000;
         }
 
-        /* Android Material You Pixel Surface */
-        .android-gradient {
-            background: linear-gradient(180deg, #0f172a 0%, #1e293b 45%, #090d16 100%);
-        }
-
-        /* Ringing Green Button Pulse */
+        /* Tactile Apple Green Ringing Pulse */
         @keyframes pulse-ring {
-            0% { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7); }
-            70% { transform: scale(1.04); box-shadow: 0 0 0 22px rgba(52, 199, 89, 0); }
-            100% { transform: scale(0.96); box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
+            0% { transform: scale(0.97); box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.65); }
+            70% { transform: scale(1.03); box-shadow: 0 0 0 20px rgba(52, 199, 89, 0); }
+            100% { transform: scale(0.97); box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
         }
         .ringing-pulse {
             animation: pulse-ring 1.6s infinite;
         }
 
-        /* Slide to Answer Shimmer Text */
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-        .slide-shimmer {
-            background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.98) 50%, rgba(255,255,255,0.3) 100%);
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 2.8s infinite linear;
-        }
-
-        /* Android Bounce Animation */
-        @keyframes float-up-down {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-7px); }
-        }
-        .android-bounce {
-            animation: float-up-down 1.6s ease-in-out infinite;
-        }
-
-        /* Full Viewport Height on Mobile Browsers without Fullscreen Warning */
+        /* Full Viewport Height without Browser Fullscreen API Warning */
         .full-screen-safe {
             height: 100vh;
             height: 100dvh;
@@ -113,481 +137,197 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white">
+<body class="text-white min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-[#007AFF] selection:text-white">
 
-    <!-- Toast Notification Banner -->
-    <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-[10000] pointer-events-none transition-all duration-300 opacity-0 -translate-y-4">
-        <div class="bg-slate-800/95 border border-slate-700 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 backdrop-blur-md">
-            <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span id="toast-message" class="text-sm font-medium">Action completed!</span>
+    <!-- Apple Dynamic Island Style Toast Notification -->
+    <div id="toast-container" class="fixed top-3 left-1/2 -translate-x-1/2 z-[10000] pointer-events-none transition-all duration-300 opacity-0 -translate-y-3">
+        <div class="bg-[#1C1C1E]/95 border border-white/15 text-white px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2.5 backdrop-blur-xl">
+            <span class="w-2 h-2 rounded-full bg-[#34C759]"></span>
+            <span id="toast-message" class="text-xs font-semibold tracking-tight">Ready</span>
         </div>
     </div>
 
     <!-- ==========================================
-         MAIN DASHBOARD & CONFIGURATION STUDIO
+         MINIMALISTIC 1-SCREEN "PANIC CARD" STUDIO
     =========================================== -->
-    <div id="dashboard-view" class="min-h-screen flex flex-col justify-between">
-        <!-- Top Navigation Bar -->
-        <header class="border-b border-slate-800/80 bg-slate-900/75 backdrop-blur-md sticky top-0 z-30">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-lg tracking-tight text-white">CallEscape</span>
-                            <span class="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Pro Studio</span>
-                        </div>
-                        <p class="text-xs text-slate-400 hidden sm:block">Instant Excuse & Realistic Phone Call Simulator</p>
-                    </div>
-                </div>
-
+    <main class="flex-1 flex flex-col items-center justify-center px-4 py-5 sm:py-8 w-full max-w-md mx-auto">
+        
+        <!-- THE APPLE 1-TAP PANIC CARD -->
+        <div class="w-full apple-card rounded-[34px] p-5 sm:p-6">
+            
+            <!-- Card Top Bar: Brand + Compact Ringtone Pill + Test Button -->
+            <div class="flex items-center justify-between gap-2 pb-4 mb-4 border-b border-white/10">
                 <div class="flex items-center gap-2.5">
-                    <button id="test-ringtone-btn" type="button" onclick="toggleRingtonePreview()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-2 transition active:scale-95">
-                        <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-                        </svg>
-                        <span id="test-ringtone-label">Test Ringtone</span>
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Workspace Grid -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1 w-full">
-
-            <!-- AD_SLOT_TOP (Prank-Safe Studio Banner) -->
-            <div class="mb-6 w-full rounded-2xl bg-slate-900/60 border border-slate-800/80 p-3 flex flex-col items-center justify-center text-center min-h-[76px]">
-                <span class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold mb-1">Sponsored Advertisement</span>
-                <!-- Paste Google AdSense / Monetag 728x90 or 320x50 Script Here -->
-                <div class="text-xs text-slate-400">Need an instant excuse? Schedule a call below and lock your phone in Stealth Mode.</div>
-            </div>
-
-            <!-- Hero Banner -->
-            <div class="mb-8 bg-gradient-to-r from-indigo-950/60 via-slate-900 to-emerald-950/40 border border-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                <div class="max-w-2xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-3">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        Real Studio MP3 Ringtones • Zero Browser Warning Popups
-                    </div>
-                    <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
-                        Get Out of Any Awkward Situation.
-                    </h1>
-                    <p class="text-slate-400 text-sm sm:text-base">
-                        Customize your caller ID, choose a real iPhone, Samsung Galaxy, or Xiaomi ringtone, set a delay timer, and use <strong class="text-slate-200">Stealth Blackout Mode</strong> so your phone rings right on cue.
-                    </p>
-                </div>
-                <div class="flex flex-wrap sm:flex-nowrap gap-3 w-full md:w-auto">
-                    <button type="button" onclick="startCallNow()" class="flex-1 md:flex-initial px-7 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-base shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2.5 transition transform active:scale-95">
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <div class="w-9 h-9 rounded-2xl bg-[#34C759] flex items-center justify-center shadow-lg shadow-[#34C759]/30">
+                        <svg class="w-5 h-5 text-white fill-current" viewBox="0 0 24 24">
                             <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
                         </svg>
-                        Trigger Call Now
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base tracking-tight text-white leading-none">CallEscape</h1>
+                        <span class="text-[11px] text-zinc-400 font-medium">1-Tap Call Simulator</span>
+                    </div>
+                </div>
+
+                <!-- Compact Ringtone Selector Pill + Play Preview Button -->
+                <div class="flex items-center gap-1.5 bg-[#2C2C2E] border border-white/10 rounded-full pl-3 pr-1.5 py-1">
+                    <select id="ringtone-select" onchange="handleRingtoneSelectChange()" aria-label="Select Ringtone" class="bg-transparent text-xs font-semibold text-zinc-100 focus:outline-none cursor-pointer pr-1">
+                        <option value="iphone" class="bg-zinc-900 text-white">🔊 iPhone</option>
+                        <option value="samsung" class="bg-zinc-900 text-white">🔊 Samsung S23</option>
+                        <option value="xiaomi" class="bg-zinc-900 text-white">🔊 Xiaomi Mi</option>
+                        <option value="silent" class="bg-zinc-900 text-white">🔇 Vibrate Only</option>
+                    </select>
+                    <button type="button" id="preview-ringtone-btn" onclick="toggleRingtonePreview()" title="Test Ringtone" class="w-6 h-6 rounded-full bg-white/15 hover:bg-white/25 active:scale-90 flex items-center justify-center text-[10px] text-white transition">
+                        <span id="preview-ringtone-icon">▶</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Two Column Layout: Controls (Left) + Live Preview (Right) -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- LEFT COLUMN: CONFIGURATION CONTROLS (7 cols) -->
-                <div class="lg:col-span-7 space-y-6">
-                    
-                    <!-- 1. Quick Caller Presets -->
-                    <section class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-base font-bold text-white flex items-center gap-2">
-                                <span class="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold">1</span>
-                                Quick Caller Presets
-                            </h2>
-                            <span class="text-xs text-slate-400">One-tap fill</span>
-                        </div>
-
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                            <button type="button" onclick="applyPreset('mom')" class="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-left transition group active:scale-95">
-                                <span class="text-2xl group-hover:scale-110 transition">❤️</span>
-                                <div class="overflow-hidden">
-                                    <div class="font-semibold text-sm text-white truncate">Mom ❤️</div>
-                                    <div class="text-xs text-slate-400 truncate">mobile</div>
-                                </div>
-                            </button>
-
-                            <button type="button" onclick="applyPreset('boss')" class="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-left transition group active:scale-95">
-                                <span class="text-2xl group-hover:scale-110 transition">💼</span>
-                                <div class="overflow-hidden">
-                                    <div class="font-semibold text-sm text-white truncate">Boss (Urgent)</div>
-                                    <div class="text-xs text-slate-400 truncate">Work Office</div>
-                                </div>
-                            </button>
-
-                            <button type="button" onclick="applyPreset('president')" class="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-left transition group active:scale-95">
-                                <span class="text-2xl group-hover:scale-110 transition">🏛️</span>
-                                <div class="overflow-hidden">
-                                    <div class="font-semibold text-sm text-white truncate">The President</div>
-                                    <div class="text-xs text-slate-400 truncate">Washington, D.C.</div>
-                                </div>
-                            </button>
-
-                            <button type="button" onclick="applyPreset('doctor')" class="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-left transition group active:scale-95">
-                                <span class="text-2xl group-hover:scale-110 transition">🩺</span>
-                                <div class="overflow-hidden">
-                                    <div class="font-semibold text-sm text-white truncate">Dr. Stevens</div>
-                                    <div class="text-xs text-slate-400 truncate">City Hospital</div>
-                                </div>
-                            </button>
-
-                            <button type="button" onclick="applyPreset('delivery')" class="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-left transition group active:scale-95">
-                                <span class="text-2xl group-hover:scale-110 transition">📦</span>
-                                <div class="overflow-hidden">
-                                    <div class="font-semibold text-sm text-white truncate">Courier Driver</div>
-                                    <div class="text-xs text-slate-400 truncate">Outside Gate</div>
-                                </div>
-                            </button>
-
-                            <button type="button" onclick="applyPreset('unknown')" class="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-left transition group active:scale-95">
-                                <span class="text-2xl group-hover:scale-110 transition">🕵️</span>
-                                <div class="overflow-hidden">
-                                    <div class="font-semibold text-sm text-white truncate">Unknown Caller</div>
-                                    <div class="text-xs text-slate-400 truncate">No Caller ID</div>
-                                </div>
-                            </button>
-                        </div>
-
-                        <!-- Custom Caller Inputs -->
-                        <div class="mt-5 pt-5 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1.5">Caller Name</label>
-                                <input type="text" id="caller-name-input" value="Mom ❤️" oninput="syncPreview()" placeholder="e.g. Mom, Boss, Papa" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500 transition">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1.5">Number / Location / Subtitle</label>
-                                <input type="text" id="caller-sub-input" value="mobile" oninput="syncPreview()" placeholder="e.g. mobile, +91 98765 43210" class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500 transition">
-                            </div>
-                        </div>
-
-                        <!-- Avatar Picker -->
-                        <div class="mt-4">
-                            <label class="block text-xs font-medium text-slate-400 mb-2">Caller Avatar Photo</label>
-                            <div class="flex flex-wrap items-center gap-3">
-                                <button type="button" onclick="setAvatarMode('initials')" class="px-3.5 py-2 rounded-xl text-xs font-medium bg-indigo-600 text-white border border-indigo-500 transition">
-                                    Auto Initials / Emoji
-                                </button>
-                                <label class="px-3.5 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 cursor-pointer flex items-center gap-2 transition">
-                                    <span>Upload Custom Photo</span>
-                                    <input type="file" id="avatar-upload-input" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
-                                </label>
-                                <span id="custom-photo-status" class="text-xs text-emerald-400 hidden">✓ Custom photo active</span>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 2. OS Theme, Real MP3 Ringtone & Answered Voice -->
-                    <section class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl">
-                        <h2 class="text-base font-bold text-white flex items-center gap-2 mb-4">
-                            <span class="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold">2</span>
-                            OS Theme, Famous Ringtone & Answered Voice
-                        </h2>
-
-                        <!-- OS Selector -->
-                        <div class="grid grid-cols-2 gap-3 mb-5">
-                            <button type="button" onclick="setOSTheme('ios')" id="theme-btn-ios" class="p-3.5 rounded-2xl border-2 border-indigo-500 bg-indigo-500/10 flex items-center justify-center gap-3 transition">
-                                <div class="text-left">
-                                    <div class="text-sm font-bold text-white">iOS 18 (iPhone)</div>
-                                    <div class="text-[11px] text-slate-400">Frosted Glass & Slide</div>
-                                </div>
-                            </button>
-
-                            <button type="button" onclick="setOSTheme('android')" id="theme-btn-android" class="p-3.5 rounded-2xl border-2 border-slate-800 bg-slate-800/50 hover:bg-slate-800 flex items-center justify-center gap-3 transition">
-                                <div class="text-left">
-                                    <div class="text-sm font-bold text-white">Android (Samsung/Pixel)</div>
-                                    <div class="text-[11px] text-slate-400">Material You & Ripple</div>
-                                </div>
-                            </button>
-                        </div>
-
-                        <!-- Ringtone & Voice Controls -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1.5">Phone Ringtone (Real MP3s)</label>
-                                <select id="ringtone-select" onchange="handleRingtoneChange()" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500">
-                                    <option value="ios_reflection">iPhone Default (iphone.mp3)</option>
-                                    <option value="samsung">Samsung Galaxy S23 (galaxy_s23.mp3)</option>
-                                    <option value="xiaomi">Xiaomi / Redmi (Mi.mp3)</option>
-                                    <option value="oneplus">OnePlus Tune (Built-in Synth)</option>
-                                    <option value="classic_bell">Urgent Office Desk Phone</option>
-                                    <option value="custom_ringtone">Upload Your Own Ringtone (.mp3)...</option>
-                                    <option value="silent">Silent (Vibration Only)</option>
-                                </select>
-                                <input type="file" id="custom-ringtone-input" accept="audio/*" class="hidden" onchange="handleCustomRingtoneUpload(event)">
-                                <p id="custom-ringtone-filename" class="text-[11px] text-emerald-400 mt-1 hidden"></p>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1.5">Answered Call Voice Simulator</label>
-                                <select id="voice-select" onchange="handleVoiceSelectChange()" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-indigo-500">
-                                    <option value="urgent_talk">Realistic Urgent Voice (Earpiece Filter)</option>
-                                    <option value="custom_audio">Upload Custom Voice Note (.mp3)...</option>
-                                    <option value="none">Silence (Call Timer Only)</option>
-                                </select>
-                                <input type="file" id="voice-upload-input" accept="audio/*" class="hidden" onchange="handleCustomVoiceUpload(event)">
-                                <p id="custom-voice-filename" class="text-[11px] text-emerald-400 mt-1 hidden"></p>
-                            </div>
-                        </div>
-
-                        <!-- Toggles -->
-                        <div class="mt-4 pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-4">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" id="vibrate-toggle" checked class="w-4 h-4 rounded accent-indigo-500">
-                                <span class="text-sm text-slate-300">Pulse Vibration on Mobile</span>
-                            </label>
-
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" id="slide-mode-toggle" onchange="syncPreview()" class="w-4 h-4 rounded accent-indigo-500">
-                                <span class="text-sm text-slate-300">Use "Slide to Answer" (Locked iPhone style)</span>
-                            </label>
-                        </div>
-                    </section>
-
-                    <!-- 3. Schedule Timer & Stealth Mode -->
-                    <section class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-base font-bold text-white flex items-center gap-2">
-                                <span class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">3</span>
-                                Schedule Call & Stealth Blackout
-                            </h2>
-                            <span class="text-xs text-emerald-400 font-medium">Most Popular for Escapes</span>
-                        </div>
-
-                        <p class="text-xs text-slate-400 mb-4">
-                            Pick a delay timer. With <strong class="text-slate-200">Stealth Blackout Screen</strong> enabled, your screen turns completely pitch-black like a locked phone so nobody sitting next to you suspects a thing until it rings.
-                        </p>
-
-                        <!-- Quick Timer Pills -->
-                        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4">
-                            <button type="button" onclick="selectDelay(0, this)" class="delay-pill py-2.5 px-3 rounded-xl text-xs font-bold border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-                                Now
-                            </button>
-                            <button type="button" onclick="selectDelay(5, this)" class="delay-pill py-2.5 px-3 rounded-xl text-xs font-bold border border-emerald-500 bg-emerald-500/20 text-emerald-300 transition">
-                                5 sec
-                            </button>
-                            <button type="button" onclick="selectDelay(15, this)" class="delay-pill py-2.5 px-3 rounded-xl text-xs font-bold border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-                                15 sec
-                            </button>
-                            <button type="button" onclick="selectDelay(30, this)" class="delay-pill py-2.5 px-3 rounded-xl text-xs font-bold border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-                                30 sec
-                            </button>
-                            <button type="button" onclick="selectDelay(60, this)" class="delay-pill py-2.5 px-3 rounded-xl text-xs font-bold border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-                                1 min
-                            </button>
-                            <button type="button" onclick="selectDelay(180, this)" class="delay-pill py-2.5 px-3 rounded-xl text-xs font-bold border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-                                3 min
-                            </button>
-                        </div>
-
-                        <!-- Custom Seconds + Stealth Checkbox -->
-                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-3 border-t border-slate-800">
-                            <div class="flex items-center gap-2">
-                                <label class="text-xs text-slate-400">Custom delay (sec):</label>
-                                <input type="number" id="custom-delay-input" value="5" min="0" max="3600" class="w-20 px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm font-semibold text-center focus:outline-none focus:border-indigo-500">
-                            </div>
-
-                            <label class="flex items-center gap-2.5 cursor-pointer">
-                                <input type="checkbox" id="stealth-mode-checkbox" checked class="w-4 h-4 rounded accent-emerald-500">
-                                <span class="text-xs sm:text-sm font-medium text-slate-200">Enter Pitch-Black Stealth Screen while waiting</span>
-                            </label>
-                        </div>
-
-                        <!-- Primary Action Buttons -->
-                        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <button type="button" onclick="scheduleFakeCall()" class="w-full py-3.5 px-5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-lg shadow-indigo-600/25 flex items-center justify-center gap-2 transition transform active:scale-95">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                Start Scheduled Call
-                            </button>
-                            <button type="button" onclick="startCallNow()" class="w-full py-3.5 px-5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition transform active:scale-95">
-                                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
-                                </svg>
-                                Ring Immediately
-                            </button>
-                        </div>
-                    </section>
+            <!-- STEP 1: 1. WHO IS CALLING? (2x2 GRID) -->
+            <div class="mb-5">
+                <div class="flex items-center justify-between mb-2.5 px-0.5">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-zinc-400">1. Who is calling?</span>
+                    <span id="active-caller-indicator" class="text-[11px] font-semibold text-[#007AFF]">Selected: Dad</span>
                 </div>
 
-                <!-- RIGHT COLUMN: LIVE INTERACTIVE MINI PREVIEW (5 cols) -->
-                <div class="lg:col-span-5 flex flex-col items-center">
-                    <div class="sticky top-24 w-full max-w-[340px]">
-                        <div class="flex items-center justify-between mb-3 px-2">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                                Live Screen Preview
-                            </span>
-                            <span id="preview-os-badge" class="text-xs font-medium text-indigo-400">iOS 18 Theme</span>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <!-- Tile 1: Dad -->
+                    <button type="button" id="tile-dad" onclick="selectCallerTile('dad')" class="caller-tile selected-tile rounded-2xl p-3.5 flex items-center gap-3 text-left active:scale-[0.98]">
+                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-[#007AFF] to-[#0051A8] flex items-center justify-center text-xl shadow-md shrink-0">
+                            👨‍🦳
                         </div>
-
-                        <!-- Phone Mockup Frame -->
-                        <div class="relative rounded-[44px] p-3 bg-slate-800 border-4 border-slate-700 shadow-2xl">
-                            <!-- Dynamic Island / Notch -->
-                            <div class="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-end px-2">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500/80"></span>
-                            </div>
-
-                            <!-- Phone Inner Screen -->
-                            <div id="mini-preview-screen" class="rounded-[34px] h-[550px] w-full overflow-hidden relative flex flex-col justify-between p-6 text-white ios-blur select-none">
-                                <!-- Status Bar -->
-                                <div class="flex items-center justify-between text-[11px] font-semibold opacity-85 pt-1">
-                                    <span>9:41</span>
-                                    <div class="flex items-center gap-1.5">
-                                        <span>5G</span>
-                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17 4h-3V2h-4v2H7v18h10V4z"/></svg>
-                                    </div>
-                                </div>
-
-                                <!-- Caller Info Preview -->
-                                <div class="text-center mt-6 flex flex-col items-center">
-                                    <div id="preview-avatar" class="w-20 h-20 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-3xl font-bold shadow-lg mb-3 overflow-hidden border-2 border-white/20">
-                                        ❤️
-                                    </div>
-                                    <p id="preview-sub" class="text-xs text-white/70 font-medium tracking-wide">mobile</p>
-                                    <h3 id="preview-name" class="text-2xl font-semibold tracking-tight mt-0.5">Mom ❤️</h3>
-                                </div>
-
-                                <!-- Interactive Preview Trigger Pill -->
-                                <div class="my-auto text-center">
-                                    <button type="button" onclick="startCallNow()" class="px-4 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-xs text-white font-medium border border-white/20 transition">
-                                        Tap to Launch Full Call Screen
-                                    </button>
-                                </div>
-
-                                <!-- Bottom Controls Preview (Hardcoded Inline SVGs so they NEVER disappear!) -->
-                                <div class="space-y-5 mb-1">
-                                    <div class="flex justify-around text-center text-[11px] text-white/85">
-                                        <div class="flex flex-col items-center gap-1">
-                                            <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center">
-                                                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                </svg>
-                                            </div>
-                                            <span>Remind Me</span>
-                                        </div>
-                                        <div class="flex flex-col items-center gap-1">
-                                            <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center">
-                                                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-                                                </svg>
-                                            </div>
-                                            <span>Message</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Accept / Decline Buttons Preview -->
-                                    <div class="flex justify-around items-center pt-1">
-                                        <div class="flex flex-col items-center gap-1.5 cursor-pointer" onclick="startCallNow()">
-                                            <div class="w-14 h-14 rounded-full bg-[#ff3b30] flex items-center justify-center shadow-lg">
-                                                <!-- Decline Phone Hangup SVG -->
-                                                <svg class="w-6 h-6 text-white fill-current transform rotate-[135deg]" viewBox="0 0 24 24">
-                                                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
-                                                </svg>
-                                            </div>
-                                            <span class="text-xs text-white/90">Decline</span>
-                                        </div>
-                                        <div class="flex flex-col items-center gap-1.5 cursor-pointer" onclick="startCallNow()">
-                                            <div class="w-14 h-14 rounded-full bg-[#34c759] flex items-center justify-center shadow-lg ringing-pulse">
-                                                <!-- Accept Phone SVG -->
-                                                <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 24 24">
-                                                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
-                                                </svg>
-                                            </div>
-                                            <span class="text-xs text-white/90">Accept</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="overflow-hidden">
+                            <div class="font-bold text-sm text-white truncate">Dad</div>
+                            <div class="text-[11px] text-zinc-400 truncate">mobile</div>
                         </div>
+                    </button>
 
-                        <!-- AD_SLOT_SIDEBAR -->
-                        <div class="mt-5 w-full rounded-2xl bg-slate-900/60 border border-slate-800/80 p-3 text-center">
-                            <span class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold block">Tip for 100% Fullscreen</span>
-                            <p class="text-xs text-slate-400 mt-1">Tap browser menu <strong>"Add to Home Screen"</strong> to launch CallEscape like a native mobile app.</p>
+                    <!-- Tile 2: Mom -->
+                    <button type="button" id="tile-mom" onclick="selectCallerTile('mom')" class="caller-tile rounded-2xl p-3.5 flex items-center gap-3 text-left active:scale-[0.98]">
+                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-[#FF9500] to-[#FF3B30] flex items-center justify-center text-xl shadow-md shrink-0">
+                            👩‍🦳
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="font-bold text-sm text-white truncate">Mom</div>
+                            <div class="text-[11px] text-zinc-400 truncate">mobile</div>
+                        </div>
+                    </button>
+
+                    <!-- Tile 3: Wife -->
+                    <button type="button" id="tile-wife" onclick="selectCallerTile('wife')" class="caller-tile rounded-2xl p-3.5 flex items-center gap-3 text-left active:scale-[0.98]">
+                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-[#FF2D55] to-[#D70040] flex items-center justify-center text-xl shadow-md shrink-0">
+                            ❤️
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="font-bold text-sm text-white truncate">Wife ❤️</div>
+                            <div class="text-[11px] text-zinc-400 truncate">mobile</div>
+                        </div>
+                    </button>
+
+                    <!-- Tile 4: Inline Custom Typing Bracket -->
+                    <div id="tile-custom" onclick="focusCustomTile()" class="caller-tile rounded-2xl p-3 flex items-center gap-2.5 text-left cursor-text">
+                        <div class="w-10 h-10 rounded-full bg-zinc-700/80 flex items-center justify-center text-base shrink-0">
+                            ✏️
+                        </div>
+                        <div class="w-full overflow-hidden">
+                            <label for="custom-caller-input" class="block text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Custom</label>
+                            <input 
+                                type="text" 
+                                id="custom-caller-input" 
+                                placeholder="Type name..." 
+                                maxlength="24"
+                                onfocus="selectCallerTile('custom')"
+                                oninput="handleCustomNameTyping(this.value)"
+                                class="w-full bg-transparent text-white font-bold text-sm placeholder-zinc-500 focus:outline-none border-b border-transparent focus:border-[#007AFF] pb-0.5"
+                            >
                         </div>
                     </div>
-                </div>
-
-            </div>
-
-            <!-- ==========================================
-                 VIRAL SHARE & SEO FAQ SECTION
-            =========================================== -->
-            <section class="mt-12 bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
-                    <div>
-                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Share with Friends</span>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mt-1">Send a Pre-Configured Fake Call Link on WhatsApp</h2>
-                    </div>
-                    <div class="flex flex-wrap gap-3">
-                        <button type="button" onclick="shareOnWhatsApp()" class="px-5 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm flex items-center gap-2 transition">
-                            <span>Share on WhatsApp</span>
-                        </button>
-                        <button type="button" onclick="copyShareableLink()" class="px-5 py-3 rounded-2xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 font-semibold text-sm flex items-center gap-2 transition">
-                            <span>Copy Preset Link</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                    <div class="p-5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
-                        <h3 class="font-bold text-white text-sm mb-1.5">1. Real Studio Ringtones</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            Includes genuine iPhone Reflection, Samsung Galaxy S23 Over the Horizon, and Xiaomi Mi Remix MP3 audio so everyone around you hears an authentic ringtone.
-                        </p>
-                    </div>
-
-                    <div class="p-5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
-                        <h3 class="font-bold text-white text-sm mb-1.5">2. Pitch-Black Stealth Timer</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            Set a 15-second or 1-minute countdown and place your phone face-up on the table. The screen stays completely black until the incoming call lights it up.
-                        </p>
-                    </div>
-
-                    <div class="p-5 rounded-2xl bg-slate-950/60 border border-slate-800/80">
-                        <h3 class="font-bold text-white text-sm mb-1.5">3. Answered Earpiece Voice</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            When you tap Accept, a live duration timer (`00:01`, `00:02`) runs and simulated earpiece audio plays so people nearby hear someone talking to you.
-                        </p>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500 px-4">
-            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                <span>© 2026 CallEscape Pro • Built for Entertainment & Social Lifesaving</span>
-                <div class="flex gap-4">
-                    <button type="button" onclick="showToast('Privacy: 100% browser-based. No personal data is stored.')" class="hover:text-slate-300">Privacy Policy</button>
-                    <button type="button" onclick="showToast('For entertainment & harmless social escape use only.')" class="hover:text-slate-300">Terms of Use</button>
                 </div>
             </div>
-        </footer>
-    </div>
+
+            <!-- STEP 2: 2. WHEN TO RING? (APPLE SEGMENTED CONTROL) -->
+            <div class="mb-5">
+                <div class="flex items-center justify-between mb-2.5 px-0.5">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-zinc-400">2. When to ring?</span>
+                    <span id="timer-status-label" class="text-[11px] font-medium text-zinc-400">Instant ring</span>
+                </div>
+
+                <div class="segmented-bg p-1 rounded-2xl grid grid-cols-5 gap-1">
+                    <button type="button" onclick="selectDelay(0, this)" class="segment-pill active-segment py-2 rounded-xl text-xs font-semibold text-zinc-300">
+                        Now
+                    </button>
+                    <button type="button" onclick="selectDelay(5, this)" class="segment-pill py-2 rounded-xl text-xs font-semibold text-zinc-300">
+                        5s
+                    </button>
+                    <button type="button" onclick="selectDelay(15, this)" class="segment-pill py-2 rounded-xl text-xs font-semibold text-zinc-300">
+                        15s
+                    </button>
+                    <button type="button" onclick="selectDelay(30, this)" class="segment-pill py-2 rounded-xl text-xs font-semibold text-zinc-300">
+                        30s
+                    </button>
+                    <button type="button" onclick="selectDelay(60, this)" class="segment-pill py-2 rounded-xl text-xs font-semibold text-zinc-300">
+                        1m
+                    </button>
+                </div>
+
+                <!-- Reassuring Stealth Blackout Notice when a delay > 0 is selected -->
+                <div id="stealth-reassurance-badge" class="hidden mt-2.5 px-3 py-2 rounded-xl bg-black/50 border border-white/10 items-center gap-2 text-[11px] text-zinc-300">
+                    <span class="w-2 h-2 rounded-full bg-[#34C759] animate-pulse shrink-0"></span>
+                    <span>Screen turns <strong>pitch-black like a locked phone</strong> until it rings.</span>
+                </div>
+            </div>
+
+            <!-- PRIMARY APPLE GREEN CTA BUTTON -->
+            <button type="button" id="main-trigger-btn" onclick="triggerCallAction()" class="w-full py-4 px-6 rounded-2xl bg-[#34C759] hover:bg-[#2fb350] active:scale-[0.98] text-black font-extrabold text-base shadow-xl shadow-[#34C759]/25 flex items-center justify-center gap-2.5 transition">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+                </svg>
+                <span id="main-trigger-text">Ring from Dad Now</span>
+            </button>
+
+            <!-- Quick Helper Footer inside Card -->
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-zinc-400">
+                <button type="button" onclick="shareOnWhatsApp()" class="hover:text-white flex items-center gap-1 transition">
+                    <span>📤 Share on WhatsApp</span>
+                </button>
+                <button type="button" onclick="copyShareableLink()" class="hover:text-white flex items-center gap-1 transition">
+                    <span>🔗 Copy Preset Link</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- AD_SLOT_MAIN (Clean Native Sponsor Slot Below Panic Card) -->
+        <div class="w-full mt-4 rounded-2xl bg-zinc-900/50 border border-white/5 px-4 py-2.5 text-center">
+            <span class="text-[9px] uppercase tracking-widest text-zinc-600 font-semibold block">Sponsored</span>
+            <!-- Paste Google AdSense / Monetag 320x50 Banner Code Here -->
+            <p class="text-[11px] text-zinc-400 mt-0.5">Pro Tip: Turn off silent mode on iPhone so your ringtone plays out loud.</p>
+        </div>
+
+    </main>
+
+    <!-- Minimal SEO & Compliance Footer -->
+    <footer class="py-3 text-center text-[11px] text-zinc-600 px-4">
+        <div class="max-w-md mx-auto flex items-center justify-center gap-4">
+            <span>© 2026 CallEscape</span>
+            <span>•</span>
+            <button type="button" onclick="showToast('100% browser-based. Zero personal data collected.')" class="hover:text-zinc-400">Privacy</button>
+            <span>•</span>
+            <button type="button" onclick="showToast('For entertainment & harmless social escape use.')" class="hover:text-zinc-400">Terms</button>
+        </div>
+    </footer>
 
     <!-- ==========================================
-         STEALTH / BLACKOUT WAITING SCREEN OVERLAY
+         STEALTH BLACKOUT WAITING SCREEN OVERLAY
     =========================================== -->
     <div id="stealth-overlay" ondblclick="cancelScheduledCall()" class="fixed inset-0 bg-black z-[9998] hidden flex-col items-center justify-between p-8 cursor-pointer select-none full-screen-safe">
         <div></div>
         <div id="stealth-hint-box" class="text-center transition-opacity duration-1000">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 text-zinc-400 text-xs border border-zinc-800 mb-3">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                Stealth Blackout Active
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900 text-zinc-400 text-xs border border-zinc-800 mb-2.5">
+                <span class="w-2 h-2 rounded-full bg-[#34C759] animate-pulse"></span>
+                <span>Locked Screen Stealth Mode</span>
             </div>
-            <p class="text-zinc-400 text-sm">Incoming call in <span id="stealth-countdown-num" class="text-white font-mono font-bold">5</span>s</p>
-            <p class="text-zinc-600 text-xs mt-2">(This text auto-hides in 2s • Double-tap anywhere to cancel)</p>
+            <p class="text-zinc-300 text-sm">Ringing in <span id="stealth-countdown-num" class="text-white font-mono font-bold">5</span>s</p>
+            <p class="text-zinc-600 text-xs mt-1.5">(Fades to pitch-black in 2s • Double-tap anywhere to cancel)</p>
         </div>
         <div class="text-[11px] text-zinc-900 font-mono">
             <span id="stealth-mini-timer">00:05</span>
@@ -595,13 +335,13 @@
     </div>
 
     <!-- ==========================================
-         FULL-SCREEN INCOMING CALL UI (iOS & Android)
-         (No requestFullscreen() called -> Zero Chrome Popup!)
+         FULL-SCREEN APPLE iOS 18 INCOMING CALL UI
+         (Zero requestFullscreen() -> Zero Browser Warning!)
     =========================================== -->
-    <div id="incoming-call-overlay" class="fixed inset-0 z-[9999] hidden flex-col justify-between p-6 sm:p-10 text-white select-none overflow-hidden ios-blur full-screen-safe">
+    <div id="incoming-call-overlay" class="fixed inset-0 z-[9999] hidden flex-col justify-between p-6 sm:p-10 text-white select-none overflow-hidden ios-call-wallpaper full-screen-safe">
         
-        <!-- Top Status Bar -->
-        <div class="w-full max-w-md mx-auto flex items-center justify-between text-xs font-semibold opacity-85">
+        <!-- Top iOS Status Bar -->
+        <div class="w-full max-w-md mx-auto flex items-center justify-between text-xs font-semibold opacity-90 pt-1">
             <span id="live-clock-incoming">9:41</span>
             <div class="flex items-center gap-1.5">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2 22h20V2z"/></svg>
@@ -611,37 +351,22 @@
         </div>
 
         <!-- Caller Identification Header -->
-        <div class="w-full max-w-md mx-auto text-center mt-6 sm:mt-10 flex flex-col items-center">
-            <!-- Android Label -->
-            <div id="android-incoming-badge" class="hidden items-center gap-1.5 text-xs uppercase tracking-widest text-emerald-400 font-semibold mb-4">
-                <span>Incoming Voice Call</span>
+        <div class="w-full max-w-md mx-auto text-center mt-8 sm:mt-12 flex flex-col items-center">
+            <div id="incoming-avatar" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#007AFF] to-[#0051A8] flex items-center justify-center text-4xl sm:text-5xl font-bold shadow-2xl mb-4 border border-white/20">
+                👨‍🦳
             </div>
-
-            <!-- Caller Avatar -->
-            <div id="incoming-avatar" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-5xl font-bold shadow-2xl mb-5 overflow-hidden border-2 border-white/20">
-                ❤️
-            </div>
-
-            <p id="incoming-subtitle" class="text-base sm:text-lg text-white/75 font-normal tracking-wide">mobile</p>
-            <h1 id="incoming-caller-name" class="text-4xl sm:text-5xl font-semibold tracking-tight mt-1">Mom ❤️</h1>
+            <p id="incoming-subtitle" class="text-base text-white/70 font-normal tracking-wide">mobile</p>
+            <h2 id="incoming-caller-name" class="text-4xl sm:text-5xl font-semibold tracking-tight mt-1">Dad</h2>
         </div>
 
-        <!-- Spacer -->
         <div class="flex-1"></div>
 
-        <!-- Quick Reply / Remind Me Feedback -->
-        <div id="incoming-quick-feedback" class="w-full max-w-xs mx-auto mb-4 text-center hidden">
-            <div class="bg-white/15 backdrop-blur-md rounded-2xl py-2.5 px-4 text-xs text-white border border-white/20">
-                Message sent!
-            </div>
-        </div>
-
-        <!-- Bottom Action Controls (Hardcoded Inline SVGs) -->
+        <!-- Bottom Action Controls (Remind Me, Message, Decline, Accept) -->
         <div class="w-full max-w-md mx-auto space-y-8 pb-6 sm:pb-10">
             
-            <!-- Remind Me & Message Action Row -->
+            <!-- Remind Me & Message Row -->
             <div class="flex justify-around items-center px-6">
-                <button type="button" onclick="triggerQuickReply('Reminder set for 1 hour')" class="flex flex-col items-center gap-2 group">
+                <button type="button" onclick="endOrDeclineCall(false)" class="flex flex-col items-center gap-2 group">
                     <div class="w-12 h-12 rounded-full bg-white/15 group-active:bg-white/30 flex items-center justify-center transition">
                         <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -650,7 +375,7 @@
                     <span class="text-xs text-white/90 font-medium">Remind Me</span>
                 </button>
 
-                <button type="button" onclick="triggerQuickReply('Sent: Calling you right back!')" class="flex flex-col items-center gap-2 group">
+                <button type="button" onclick="endOrDeclineCall(false)" class="flex flex-col items-center gap-2 group">
                     <div class="w-12 h-12 rounded-full bg-white/15 group-active:bg-white/30 flex items-center justify-center transition">
                         <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
@@ -660,12 +385,11 @@
                 </button>
             </div>
 
-            <!-- Dual Button Mode (Standard Decline / Accept) -->
-            <div id="dual-buttons-container" class="flex justify-around items-center px-4">
-                <!-- Decline Button -->
+            <!-- Decline (#FF3B30) & Accept (#34C759) Buttons with Permanent Inline SVGs -->
+            <div class="flex justify-around items-center px-4">
+                <!-- Red Decline Circle -->
                 <div class="flex flex-col items-center gap-2.5">
-                    <button type="button" onclick="endOrDeclineCall()" class="w-20 h-20 rounded-full bg-[#ff3b30] active:brightness-75 flex items-center justify-center shadow-2xl shadow-red-600/40 transition transform active:scale-95">
-                        <!-- Hangup Phone SVG -->
+                    <button type="button" onclick="endOrDeclineCall(false)" class="w-20 h-20 rounded-full bg-[#FF3B30] active:brightness-75 flex items-center justify-center shadow-2xl shadow-[#FF3B30]/40 transition transform active:scale-95">
                         <svg class="w-9 h-9 text-white fill-current transform rotate-[135deg]" viewBox="0 0 24 24">
                             <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
                         </svg>
@@ -673,32 +397,14 @@
                     <span class="text-sm font-medium text-white/90">Decline</span>
                 </div>
 
-                <!-- Accept Button -->
+                <!-- Green Accept Circle -->
                 <div class="flex flex-col items-center gap-2.5">
-                    <button type="button" onclick="answerCall()" id="accept-call-btn" class="w-20 h-20 rounded-full bg-[#34c759] active:brightness-75 flex items-center justify-center shadow-2xl shadow-emerald-500/40 ringing-pulse transition transform active:scale-95">
-                        <!-- Answer Phone SVG -->
+                    <button type="button" onclick="answerCall()" class="w-20 h-20 rounded-full bg-[#34C759] active:brightness-75 flex items-center justify-center shadow-2xl shadow-[#34C759]/40 ringing-pulse transition transform active:scale-95">
                         <svg class="w-9 h-9 text-white fill-current" viewBox="0 0 24 24">
                             <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
                         </svg>
                     </button>
                     <span class="text-sm font-medium text-white/90">Accept</span>
-                </div>
-            </div>
-
-            <!-- Slide to Answer Mode (iOS Lock Screen Style) -->
-            <div id="slide-to-answer-container" class="hidden px-4">
-                <div id="slider-track" class="relative w-full h-20 rounded-full bg-white/15 border border-white/20 p-1.5 flex items-center overflow-hidden">
-                    <div class="w-full text-center pointer-events-none pl-12">
-                        <span class="text-lg font-medium tracking-wide slide-shimmer">slide to answer</span>
-                    </div>
-                    <div id="slider-thumb" 
-                         onmousedown="startSlideDrag(event)" 
-                         ontouchstart="startSlideDrag(event)"
-                         class="absolute left-1.5 w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-xl cursor-grab active:cursor-grabbing">
-                        <svg class="w-7 h-7 text-[#34c759] fill-current" viewBox="0 0 24 24">
-                            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
-                        </svg>
-                    </div>
                 </div>
             </div>
 
@@ -708,36 +414,30 @@
     <!-- ==========================================
          FULL-SCREEN ANSWERED / ACTIVE CALL UI
     =========================================== -->
-    <div id="active-call-overlay" class="fixed inset-0 z-[9999] hidden flex-col justify-between p-6 sm:p-10 text-white select-none overflow-hidden ios-blur full-screen-safe">
+    <div id="active-call-overlay" class="fixed inset-0 z-[9999] hidden flex-col justify-between p-6 sm:p-10 text-white select-none overflow-hidden ios-call-wallpaper full-screen-safe">
         
         <!-- Top Status Bar -->
-        <div class="w-full max-w-md mx-auto flex items-center justify-between text-xs font-semibold opacity-85">
+        <div class="w-full max-w-md mx-auto flex items-center justify-between text-xs font-semibold opacity-90 pt-1">
             <span id="live-clock-active">9:41</span>
             <div class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>HD Voice</span>
+                <span class="w-2 h-2 rounded-full bg-[#34C759] animate-pulse"></span>
+                <span>00:01</span>
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17 4h-3V2h-4v2H7v18h10V4z"/></svg>
             </div>
         </div>
 
-        <!-- Caller Header & Live Running Call Timer -->
+        <!-- Active Caller Header & Live Duration Timer -->
         <div class="w-full max-w-md mx-auto text-center mt-4 flex flex-col items-center">
-            <div id="active-avatar" class="w-20 h-20 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-3xl font-bold shadow-xl mb-3 overflow-hidden border border-white/20">
-                ❤️
+            <div id="active-avatar" class="w-20 h-20 rounded-full bg-gradient-to-br from-[#007AFF] to-[#0051A8] flex items-center justify-center text-3xl font-bold shadow-xl mb-3 border border-white/20">
+                👨‍🦳
             </div>
-            <h2 id="active-caller-name" class="text-3xl font-semibold tracking-tight">Mom ❤️</h2>
-            <p id="active-call-timer" class="text-lg font-mono text-white/85 mt-1 tracking-wider">00:01</p>
-            <div id="voice-wave-badge" class="mt-2 inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/10 text-[11px] text-emerald-300">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>Caller Audio Active</span>
-            </div>
+            <h2 id="active-caller-name" class="text-3xl font-semibold tracking-tight">Dad</h2>
+            <p id="active-call-timer" class="text-lg font-mono text-white/80 mt-1 tracking-wider">00:01</p>
         </div>
 
-        <!-- 6-Button Call Control Grid OR In-Call Keypad -->
+        <!-- iOS 6-Button Call Control Grid -->
         <div class="w-full max-w-xs mx-auto my-auto">
-            
-            <!-- Standard 6 Controls -->
-            <div id="in-call-controls-grid" class="grid grid-cols-3 gap-y-6 gap-x-6 text-center">
+            <div class="grid grid-cols-3 gap-y-6 gap-x-6 text-center">
                 <!-- Mute -->
                 <div class="flex flex-col items-center gap-2">
                     <button type="button" onclick="toggleInCallBtn(this)" class="ios-btn-glass w-16 h-16 rounded-full flex items-center justify-center">
@@ -750,7 +450,7 @@
 
                 <!-- Keypad -->
                 <div class="flex flex-col items-center gap-2">
-                    <button type="button" onclick="toggleKeypadView(true)" class="ios-btn-glass w-16 h-16 rounded-full flex items-center justify-center">
+                    <button type="button" onclick="toggleInCallBtn(this)" class="ios-btn-glass w-16 h-16 rounded-full flex items-center justify-center">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
                         </svg>
@@ -778,7 +478,7 @@
                     <span class="text-xs text-white/90">add call</span>
                 </div>
 
-                <!-- FaceTime / Video -->
+                <!-- FaceTime -->
                 <div class="flex flex-col items-center gap-2">
                     <button type="button" onclick="toggleInCallBtn(this)" class="ios-btn-glass w-16 h-16 rounded-full flex items-center justify-center">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -798,31 +498,11 @@
                     <span class="text-xs text-white/90">contacts</span>
                 </div>
             </div>
-
-            <!-- Interactive DTMF Keypad Overlay -->
-            <div id="in-call-keypad" class="hidden flex-col items-center">
-                <div id="keypad-typed-display" class="h-8 text-2xl font-mono tracking-widest text-white mb-4"></div>
-                <div class="grid grid-cols-3 gap-4 text-center">
-                    <button type="button" onclick="pressDtmf('1')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">1</button>
-                    <button type="button" onclick="pressDtmf('2')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">2</button>
-                    <button type="button" onclick="pressDtmf('3')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">3</button>
-                    <button type="button" onclick="pressDtmf('4')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">4</button>
-                    <button type="button" onclick="pressDtmf('5')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">5</button>
-                    <button type="button" onclick="pressDtmf('6')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">6</button>
-                    <button type="button" onclick="pressDtmf('7')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">7</button>
-                    <button type="button" onclick="pressDtmf('8')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">8</button>
-                    <button type="button" onclick="pressDtmf('9')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">9</button>
-                    <button type="button" onclick="pressDtmf('*')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">*</button>
-                    <button type="button" onclick="pressDtmf('0')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">0</button>
-                    <button type="button" onclick="pressDtmf('#')" class="ios-btn-glass w-16 h-16 rounded-full text-2xl font-semibold">#</button>
-                </div>
-                <button type="button" onclick="toggleKeypadView(false)" class="mt-4 text-xs text-white/80 hover:text-white underline">Hide Keypad</button>
-            </div>
         </div>
 
-        <!-- Bottom Red End Call Button -->
+        <!-- Bottom Red End Call Circle (#FF3B30) -->
         <div class="w-full max-w-md mx-auto flex justify-center pb-6 sm:pb-10">
-            <button type="button" onclick="endOrDeclineCall()" class="w-20 h-20 rounded-full bg-[#ff3b30] active:brightness-75 flex items-center justify-center shadow-2xl shadow-red-600/40 transition transform active:scale-95">
+            <button type="button" onclick="endOrDeclineCall(true)" class="w-20 h-20 rounded-full bg-[#FF3B30] active:brightness-75 flex items-center justify-center shadow-2xl shadow-[#FF3B30]/40 transition transform active:scale-95">
                 <svg class="w-9 h-9 text-white fill-current transform rotate-[135deg]" viewBox="0 0 24 24">
                     <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
                 </svg>
@@ -831,53 +511,98 @@
     </div>
 
     <!-- ==========================================
-         APPLICATION LOGIC, REAL MP3 + SYNTH AUDIO
+         POST-CALL SUMMARY & VIRAL SHARE MODAL
+    =========================================== -->
+    <div id="post-call-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[9995] hidden items-center justify-center p-4">
+        <div class="w-full max-w-sm apple-card rounded-3xl p-6 text-center animate-fade-in">
+            <div class="w-12 h-12 rounded-full bg-[#34C759]/20 text-[#34C759] flex items-center justify-center mx-auto mb-3">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-white">Escape Completed!</h3>
+            <p id="post-call-summary-text" class="text-xs text-zinc-400 mt-1">Call with Dad ended • Duration 00:08</p>
+
+            <!-- AD_SLOT_POST_CALL (High-RPM Interstitial Slot) -->
+            <div class="my-4 p-4 rounded-2xl bg-black/40 border border-white/10 text-center">
+                <span class="text-[9px] uppercase tracking-widest text-zinc-500 block mb-1">Sponsored</span>
+                <!-- Paste 300x250 AdSense / Monetag Tag Here -->
+                <p class="text-xs text-zinc-300 font-medium">Saved by CallEscape? Send a preset link to a friend who needs an excuse!</p>
+            </div>
+
+            <div class="space-y-2.5">
+                <button type="button" onclick="shareOnWhatsApp()" class="w-full py-3 rounded-xl bg-[#34C759] text-black font-bold text-sm transition active:scale-95">
+                    Share Escape on WhatsApp
+                </button>
+                <button type="button" onclick="closePostCallModal()" class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-zinc-300 font-semibold text-xs transition">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         APPLICATION LOGIC & REAL MP3 + SYNTH ENGINE
     =========================================== -->
     <script>
-        // Application State
-        const state = {
-            callerName: "Mom ❤️",
-            callerSub: "mobile",
-            avatarEmojiOrInitials: "❤️",
-            customAvatarUrl: null,
-            osTheme: "ios",
-            delaySeconds: 5,
-            isRinging: false,
-            isCallActive: false,
-            customVoiceUrl: null,
-            customRingtoneUrl: null
-        };
-
-        // Exact GitHub MP3 filenames uploaded by user
+        // Exact GitHub MP3 filenames uploaded in user's repository
         const GITHUB_MP3_FILES = {
-            'ios_reflection': 'iphone.mp3',
+            'iphone': 'iphone.mp3',
             'samsung': 'galaxy_s23.mp3',
             'xiaomi': 'Mi.mp3'
         };
 
+        // 3 Relatable Presets + 4th Custom Slot
+        const CALLER_PRESETS = {
+            dad: {
+                name: "Dad",
+                sub: "mobile",
+                emoji: "👨‍🦳",
+                gradient: "from-[#007AFF] to-[#0051A8]"
+            },
+            mom: {
+                name: "Mom",
+                sub: "mobile",
+                emoji: "👩‍🦳",
+                gradient: "from-[#FF9500] to-[#FF3B30]"
+            },
+            wife: {
+                name: "Wife ❤️",
+                sub: "mobile",
+                emoji: "❤️",
+                gradient: "from-[#FF2D55] to-[#D70040]"
+            },
+            custom: {
+                name: "Boss",
+                sub: "mobile",
+                emoji: "👤",
+                gradient: "from-zinc-600 to-zinc-800"
+            }
+        };
+
+        // State
+        const state = {
+            selectedKey: 'dad',
+            callerName: 'Dad',
+            callerSub: 'mobile',
+            avatarEmoji: '👨‍🦳',
+            avatarGradient: 'from-[#007AFF] to-[#0051A8]',
+            delaySeconds: 0,
+            lastCallDurationSec: 0
+        };
+
         // Timers & Audio Handles
-        let scheduledTimeoutId = null;
         let stealthIntervalId = null;
         let activeCallIntervalId = null;
         let ringtoneLoopId = null;
         let vibrateLoopId = null;
         let voiceChatterIntervalId = null;
+        let previewTimeoutId = null;
         let isPreviewPlaying = false;
         let audioCtx = null;
-        let customVoiceAudioEl = null;
         let wakeLockSentinel = null;
 
-        // Caller Presets
-        const PRESETS = {
-            mom: { name: "Mom ❤️", sub: "mobile", emoji: "❤️" },
-            boss: { name: "Boss (Urgent)", sub: "Work Office", emoji: "💼" },
-            president: { name: "The President", sub: "Washington, D.C.", emoji: "🏛️" },
-            doctor: { name: "Dr. Stevens", sub: "City Hospital", emoji: "🩺" },
-            delivery: { name: "Courier Driver", sub: "Outside Gate", emoji: "📦" },
-            unknown: { name: "Unknown Caller", sub: "No Caller ID", emoji: "🕵️" }
-        };
-
-        // Unlock Web Audio Context
+        // Initialize Web Audio Context on user gesture
         function getAudioContext() {
             if (!audioCtx) {
                 const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -891,12 +616,12 @@
             return audioCtx;
         }
 
-        // Request Screen Wake Lock so phone doesn't sleep during Stealth Mode
+        // Keep mobile screen awake during Stealth Countdown
         async function requestWakeLock() {
             if ('wakeLock' in navigator) {
                 try {
                     wakeLockSentinel = await navigator.wakeLock.request('screen');
-                } catch (err) {}
+                } catch (e) {}
             }
         }
 
@@ -907,288 +632,185 @@
             }
         }
 
-        // Toast Notification
+        // Dynamic Island Toast
         function showToast(msg) {
             const container = document.getElementById('toast-container');
             const label = document.getElementById('toast-message');
             if (!container || !label) return;
             label.textContent = msg;
-            container.classList.remove('opacity-0', '-translate-y-4');
+            container.classList.remove('opacity-0', '-translate-y-3');
             container.classList.add('opacity-100', 'translate-y-0');
             setTimeout(() => {
                 container.classList.remove('opacity-100', 'translate-y-0');
-                container.classList.add('opacity-0', '-translate-y-4');
-            }, 2800);
+                container.classList.add('opacity-0', '-translate-y-3');
+            }, 2400);
         }
 
-        // Apply Caller Preset
-        function applyPreset(key) {
-            const p = PRESETS[key];
-            if (!p) return;
-            document.getElementById('caller-name-input').value = p.name;
-            document.getElementById('caller-sub-input').value = p.sub;
-            state.avatarEmojiOrInitials = p.emoji;
-            state.customAvatarUrl = null;
-            document.getElementById('custom-photo-status').classList.add('hidden');
-            syncPreview();
-            showToast(`Caller set to ${p.name}`);
-        }
+        // ==========================================
+        // STEP 1: 2x2 CALLER TILE SELECTION
+        // ==========================================
+        function selectCallerTile(key) {
+            state.selectedKey = key;
 
-        // Custom Avatar Photo Upload
-        function handleAvatarUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                state.customAvatarUrl = e.target.result;
-                document.getElementById('custom-photo-status').classList.remove('hidden');
-                syncPreview();
-                showToast("Custom caller photo applied!");
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function setAvatarMode(mode) {
-            if (mode === 'initials') {
-                state.customAvatarUrl = null;
-                document.getElementById('custom-photo-status').classList.add('hidden');
-                syncPreview();
-            }
-        }
-
-        function renderAvatarInto(elementId) {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-            if (state.customAvatarUrl) {
-                el.innerHTML = `<img src="${state.customAvatarUrl}" alt="Caller" class="w-full h-full object-cover" />`;
-            } else {
-                const nameVal = document.getElementById('caller-name-input').value.trim();
-                const emojiMatch = nameVal.match(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu);
-                if (emojiMatch && emojiMatch.length > 0) {
-                    el.textContent = emojiMatch[0];
-                } else if (state.avatarEmojiOrInitials && nameVal === state.callerName) {
-                    el.textContent = state.avatarEmojiOrInitials;
-                } else {
-                    const parts = nameVal.split(' ').filter(Boolean);
-                    const initials = parts.length >= 2 
-                        ? (parts[0][0] + parts[1][0]).toUpperCase()
-                        : (nameVal.slice(0, 2) || "?").toUpperCase();
-                    el.textContent = initials;
+            ['dad', 'mom', 'wife', 'custom'].forEach(k => {
+                const tile = document.getElementById(`tile-${k}`);
+                if (tile) {
+                    if (k === key) {
+                        tile.classList.add('selected-tile');
+                    } else {
+                        tile.classList.remove('selected-tile');
+                    }
                 }
+            });
+
+            if (key === 'custom') {
+                const typed = document.getElementById('custom-caller-input').value.trim();
+                state.callerName = typed || "Custom Caller";
+                const initials = state.callerName.slice(0, 2).toUpperCase();
+                state.avatarEmoji = initials;
+                state.avatarGradient = CALLER_PRESETS.custom.gradient;
+            } else {
+                const preset = CALLER_PRESETS[key];
+                state.callerName = preset.name;
+                state.callerSub = preset.sub;
+                state.avatarEmoji = preset.emoji;
+                state.avatarGradient = preset.gradient;
             }
+
+            updateUIButtonLabels();
         }
 
-        // Switch OS Theme (iOS vs Android)
-        function setOSTheme(os) {
-            state.osTheme = os;
-            const iosBtn = document.getElementById('theme-btn-ios');
-            const androidBtn = document.getElementById('theme-btn-android');
-            const previewBadge = document.getElementById('preview-os-badge');
-            const ringSelect = document.getElementById('ringtone-select');
-
-            if (os === 'ios') {
-                iosBtn.className = "p-3.5 rounded-2xl border-2 border-indigo-500 bg-indigo-500/10 flex items-center justify-center gap-3 transition";
-                androidBtn.className = "p-3.5 rounded-2xl border-2 border-slate-800 bg-slate-800/50 hover:bg-slate-800 flex items-center justify-center gap-3 transition";
-                previewBadge.textContent = "iOS 18 Theme";
-                ringSelect.value = "ios_reflection";
-            } else {
-                androidBtn.className = "p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-500/10 flex items-center justify-center gap-3 transition";
-                iosBtn.className = "p-3.5 rounded-2xl border-2 border-slate-800 bg-slate-800/50 hover:bg-slate-800 flex items-center justify-center gap-3 transition";
-                previewBadge.textContent = "Android Theme";
-                ringSelect.value = "samsung";
-            }
-            if (isPreviewPlaying) {
-                stopRingtone();
-                startRingtone();
-            }
-            syncPreview();
+        function focusCustomTile() {
+            selectCallerTile('custom');
+            const input = document.getElementById('custom-caller-input');
+            if (input) input.focus();
         }
 
-        // Sync Live Preview & Fullscreen Overlays
-        function syncPreview() {
-            const nameVal = document.getElementById('caller-name-input').value || "Unknown";
-            const subVal = document.getElementById('caller-sub-input').value || "mobile";
-            state.callerName = nameVal;
-            state.callerSub = subVal;
-
-            document.getElementById('preview-name').textContent = nameVal;
-            document.getElementById('preview-sub').textContent = subVal;
-            document.getElementById('incoming-caller-name').textContent = nameVal;
-            document.getElementById('incoming-subtitle').textContent = subVal;
-            document.getElementById('active-caller-name').textContent = nameVal;
-
-            renderAvatarInto('preview-avatar');
-            renderAvatarInto('incoming-avatar');
-            renderAvatarInto('active-avatar');
-
-            const miniScreen = document.getElementById('mini-preview-screen');
-            const incomingOverlay = document.getElementById('incoming-call-overlay');
-            const activeOverlay = document.getElementById('active-call-overlay');
-            const androidBadge = document.getElementById('android-incoming-badge');
-            const acceptBtn = document.getElementById('accept-call-btn');
-
-            if (state.osTheme === 'android') {
-                miniScreen.classList.remove('ios-blur');
-                miniScreen.classList.add('android-gradient');
-                incomingOverlay.classList.remove('ios-blur');
-                incomingOverlay.classList.add('android-gradient');
-                activeOverlay.classList.remove('ios-blur');
-                activeOverlay.classList.add('android-gradient');
-                androidBadge.classList.remove('hidden');
-                androidBadge.classList.add('inline-flex');
-                acceptBtn.classList.add('android-bounce');
-            } else {
-                miniScreen.classList.add('ios-blur');
-                miniScreen.classList.remove('android-gradient');
-                incomingOverlay.classList.add('ios-blur');
-                incomingOverlay.classList.remove('android-gradient');
-                activeOverlay.classList.add('ios-blur');
-                activeOverlay.classList.remove('android-gradient');
-                androidBadge.classList.add('hidden');
-                androidBadge.classList.remove('inline-flex');
-                acceptBtn.classList.remove('android-bounce');
+        function handleCustomNameTyping(val) {
+            if (state.selectedKey !== 'custom') {
+                selectCallerTile('custom');
             }
-
-            const useSlide = document.getElementById('slide-mode-toggle').checked;
-            const dualContainer = document.getElementById('dual-buttons-container');
-            const slideContainer = document.getElementById('slide-to-answer-container');
-            if (useSlide) {
-                dualContainer.classList.add('hidden');
-                slideContainer.classList.remove('hidden');
-            } else {
-                dualContainer.classList.remove('hidden');
-                slideContainer.classList.add('hidden');
-            }
+            const clean = val.trim();
+            state.callerName = clean || "Custom Caller";
+            const parts = state.callerName.split(' ').filter(Boolean);
+            state.avatarEmoji = parts.length >= 2
+                ? (parts[0][0] + parts[1][0]).toUpperCase()
+                : (state.callerName.slice(0, 2) || "👤").toUpperCase();
+            updateUIButtonLabels();
         }
 
+        // ==========================================
+        // STEP 2: APPLE SEGMENTED TIMER CONTROL
+        // ==========================================
         function selectDelay(seconds, btnEl) {
             state.delaySeconds = seconds;
-            document.getElementById('custom-delay-input').value = seconds;
-            document.querySelectorAll('.delay-pill').forEach(btn => {
-                btn.className = "delay-pill py-2.5 px-3 rounded-xl text-xs font-bold border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+            document.querySelectorAll('.segment-pill').forEach(btn => {
+                btn.classList.remove('active-segment');
             });
             if (btnEl) {
-                btnEl.className = "delay-pill py-2.5 px-3 rounded-xl text-xs font-bold border border-emerald-500 bg-emerald-500/20 text-emerald-300 transition";
+                btnEl.classList.add('active-segment');
+            }
+
+            const statusLabel = document.getElementById('timer-status-label');
+            const stealthBadge = document.getElementById('stealth-reassurance-badge');
+
+            if (seconds === 0) {
+                statusLabel.textContent = "Instant ring";
+                stealthBadge.classList.add('hidden');
+                stealthBadge.classList.remove('flex');
+            } else {
+                statusLabel.textContent = `Stealth timer (${seconds}s)`;
+                stealthBadge.classList.remove('hidden');
+                stealthBadge.classList.add('flex');
+            }
+
+            updateUIButtonLabels();
+        }
+
+        function updateUIButtonLabels() {
+            const indicator = document.getElementById('active-caller-indicator');
+            const btnText = document.getElementById('main-trigger-text');
+
+            indicator.textContent = `Selected: ${state.callerName}`;
+
+            if (state.delaySeconds === 0) {
+                btnText.textContent = `Ring from ${state.callerName} Now`;
+            } else {
+                const label = state.delaySeconds === 60 ? '1m' : `${state.delaySeconds}s`;
+                btnText.textContent = `Schedule ${state.callerName} (${label})`;
             }
         }
 
         // ==========================================
-        // REAL MP3 RINGTONES + SYNTHESIZER FALLBACK
+        // RINGTONE ENGINE (GITHUB MP3s + SYNTH FALLBACK)
         // ==========================================
-        function handleRingtoneChange() {
-            const val = document.getElementById('ringtone-select').value;
-            if (val === 'custom_ringtone') {
-                document.getElementById('custom-ringtone-input').click();
-                return;
-            }
+        function handleRingtoneSelectChange() {
             if (isPreviewPlaying) {
                 stopRingtone();
-                startRingtone();
+                toggleRingtonePreview();
             }
         }
 
-        function handleCustomRingtoneUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            state.customRingtoneUrl = URL.createObjectURL(file);
-            const label = document.getElementById('custom-ringtone-filename');
-            label.textContent = `Loaded ringtone: ${file.name}`;
-            label.classList.remove('hidden');
-            showToast("Custom MP3 ringtone ready!");
-            if (isPreviewPlaying) {
-                stopRingtone();
-                startRingtone();
-            }
-        }
-
-        function playSynthNote(freq, startTime, duration = 0.22, waveType = 'sine') {
+        function playSynthNote(freq, startTime, duration = 0.22) {
             const ctx = getAudioContext();
             if (!ctx) return;
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
-
-            osc.type = waveType;
+            osc.type = 'sine';
             osc.frequency.setValueAtTime(freq, startTime);
-
             gain.gain.setValueAtTime(0.001, startTime);
-            gain.gain.exponentialRampToValueAtTime(0.32, startTime + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.3, startTime + 0.015);
             gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
-
             osc.connect(gain);
             gain.connect(ctx.destination);
-
             osc.start(startTime);
             osc.stop(startTime + duration);
         }
 
-        function playSynthFallbackPattern(style) {
+        function playFallbackMarimbaBurst() {
             const ctx = getAudioContext();
             if (!ctx) return;
             const now = ctx.currentTime;
-
-            if (style === 'oneplus') {
-                const notes = [587.33, 739.99, 880.00, 1174.66, 880.00, 739.99];
-                notes.forEach((f, idx) => playSynthNote(f, now + idx * 0.18, 0.25, 'sine'));
-            } else if (style === 'classic_bell') {
-                for (let i = 0; i < 8; i++) {
-                    const freq = i % 2 === 0 ? 850 : 1020;
-                    playSynthNote(freq, now + (i * 0.06), 0.055, 'square');
-                    playSynthNote(freq, now + 0.65 + (i * 0.06), 0.055, 'square');
-                }
-            } else {
-                // Default Marimba Fallback if MP3 isn't reachable locally
-                const notes = [
-                    { f: 659.25, t: 0.00 },
-                    { f: 880.00, t: 0.18 },
-                    { f: 987.77, t: 0.36 },
-                    { f: 1046.50, t: 0.54 },
-                    { f: 880.00, t: 0.72 },
-                    { f: 1318.51, t: 0.95 }
-                ];
-                notes.forEach(n => playSynthNote(n.f, now + n.t, 0.26, 'sine'));
-            }
+            const notes = [
+                { f: 659.25, t: 0.00 },
+                { f: 880.00, t: 0.18 },
+                { f: 987.77, t: 0.36 },
+                { f: 1046.50, t: 0.54 },
+                { f: 880.00, t: 0.72 },
+                { f: 1318.51, t: 0.95 }
+            ];
+            notes.forEach(n => playSynthNote(n.f, now + n.t, 0.25));
         }
 
         function startRingtone() {
             stopRingtone();
-            const style = document.getElementById('ringtone-select').value;
-            if (style === 'silent') {
-                startVibrationLoop();
-                return;
-            }
+            const selectedRing = document.getElementById('ringtone-select').value;
 
-            // Determine if we should play a real MP3 file (from GitHub repo or user upload)
-            let mp3Src = GITHUB_MP3_FILES[style] || null;
-            if (style === 'custom_ringtone' && state.customRingtoneUrl) {
-                mp3Src = state.customRingtoneUrl;
-            }
-
-            if (mp3Src) {
-                const audio = new Audio(mp3Src);
-                audio.loop = true;
-                window.customRingtoneAudio = audio;
-
-                audio.play().catch(() => {
-                    // If running in preview without MP3 file, smoothly fall back to synth
-                    playSynthFallbackPattern(style);
-                    ringtoneLoopId = setInterval(() => playSynthFallbackPattern(style), 2500);
-                });
-            } else {
-                playSynthFallbackPattern(style);
-                ringtoneLoopId = setInterval(() => playSynthFallbackPattern(style), 2500);
-            }
-
-            startVibrationLoop();
-        }
-
-        function startVibrationLoop() {
-            if (document.getElementById('vibrate-toggle').checked && 'vibrate' in navigator) {
+            // Start mobile vibration pulse
+            if ('vibrate' in navigator) {
                 try {
                     navigator.vibrate([400, 200, 400]);
                     vibrateLoopId = setInterval(() => {
                         navigator.vibrate([400, 200, 400]);
                     }, 2000);
                 } catch (e) {}
+            }
+
+            if (selectedRing === 'silent') return;
+
+            const mp3File = GITHUB_MP3_FILES[selectedRing];
+            if (mp3File) {
+                const audio = new Audio(mp3File);
+                audio.loop = true;
+                window.customRingtoneAudio = audio;
+                audio.play().catch(() => {
+                    // Fallback synthesizer if MP3 isn't loaded locally
+                    playFallbackMarimbaBurst();
+                    ringtoneLoopId = setInterval(playFallbackMarimbaBurst, 2400);
+                });
+            } else {
+                playFallbackMarimbaBurst();
+                ringtoneLoopId = setInterval(playFallbackMarimbaBurst, 2400);
             }
         }
 
@@ -1208,68 +830,62 @@
                 clearInterval(vibrateLoopId);
                 vibrateLoopId = null;
             }
+            if (previewTimeoutId) {
+                clearTimeout(previewTimeoutId);
+                previewTimeoutId = null;
+            }
             if ('vibrate' in navigator) {
                 try { navigator.vibrate(0); } catch (e) {}
             }
         }
 
         function toggleRingtonePreview() {
-            const btnLabel = document.getElementById('test-ringtone-label');
+            const icon = document.getElementById('preview-ringtone-icon');
             if (isPreviewPlaying) {
                 stopRingtone();
                 isPreviewPlaying = false;
-                btnLabel.textContent = "Test Ringtone";
+                icon.textContent = "▶";
             } else {
                 startRingtone();
                 isPreviewPlaying = true;
-                btnLabel.textContent = "Stop Ringtone";
+                icon.textContent = "■";
+                previewTimeoutId = setTimeout(() => {
+                    if (isPreviewPlaying) {
+                        stopRingtone();
+                        isPreviewPlaying = false;
+                        icon.textContent = "▶";
+                    }
+                }, 4500);
             }
         }
 
         // ==========================================
-        // SIMULATED CALLER VOICE SYNTHESIZER
+        // EARPIECE VOICE CONVERSATION SIMULATOR
         // ==========================================
-        function handleVoiceSelectChange() {
-            const sel = document.getElementById('voice-select').value;
-            if (sel === 'custom_audio') {
-                document.getElementById('voice-upload-input').click();
-            }
-        }
-
-        function handleCustomVoiceUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            state.customVoiceUrl = URL.createObjectURL(file);
-            const label = document.getElementById('custom-voice-filename');
-            label.textContent = `Loaded voice: ${file.name}`;
-            label.classList.remove('hidden');
-            showToast("Custom voice audio uploaded!");
-        }
-
-        function triggerSingleSpeechSyllableBurst() {
+        function playMuffledVoiceSyllables() {
             const ctx = getAudioContext();
             if (!ctx) return;
             const now = ctx.currentTime;
-            const syllables = 3 + Math.floor(Math.random() * 5);
+            const count = 3 + Math.floor(Math.random() * 4);
             let offset = 0;
 
-            for (let i = 0; i < syllables; i++) {
-                const dur = 0.09 + Math.random() * 0.14;
+            for (let i = 0; i < count; i++) {
+                const dur = 0.09 + Math.random() * 0.13;
                 const osc = ctx.createOscillator();
                 const filter = ctx.createBiquadFilter();
                 const gain = ctx.createGain();
 
-                const basePitch = 145 + Math.random() * 65;
+                const pitch = 140 + Math.random() * 65;
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(basePitch, now + offset);
-                osc.frequency.linearRampToValueAtTime(basePitch * (0.92 + Math.random() * 0.16), now + offset + dur);
+                osc.frequency.setValueAtTime(pitch, now + offset);
+                osc.frequency.linearRampToValueAtTime(pitch * (0.93 + Math.random() * 0.14), now + offset + dur);
 
                 filter.type = 'bandpass';
-                filter.frequency.setValueAtTime(950 + Math.random() * 500, now + offset);
+                filter.frequency.setValueAtTime(950 + Math.random() * 450, now + offset);
                 filter.Q.setValueAtTime(3.5, now + offset);
 
                 gain.gain.setValueAtTime(0.001, now + offset);
-                gain.gain.linearRampToValueAtTime(0.06, now + offset + 0.02);
+                gain.gain.linearRampToValueAtTime(0.055, now + offset + 0.02);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + offset + dur);
 
                 osc.connect(filter);
@@ -1278,31 +894,14 @@
 
                 osc.start(now + offset);
                 osc.stop(now + offset + dur);
-
-                offset += dur + 0.03 + Math.random() * 0.05;
+                offset += dur + 0.04;
             }
         }
 
         function startSimulatedCallVoice() {
             stopSimulatedCallVoice();
-            const mode = document.getElementById('voice-select').value;
-            const badge = document.getElementById('voice-wave-badge');
-
-            if (mode === 'none') {
-                badge.classList.add('hidden');
-                return;
-            }
-            badge.classList.remove('hidden');
-
-            if (mode === 'custom_audio' && state.customVoiceUrl) {
-                customVoiceAudioEl = new Audio(state.customVoiceUrl);
-                customVoiceAudioEl.loop = true;
-                customVoiceAudioEl.play().catch(() => {});
-                return;
-            }
-
-            triggerSingleSpeechSyllableBurst();
-            voiceChatterIntervalId = setInterval(triggerSingleSpeechSyllableBurst, 1900);
+            playMuffledVoiceSyllables();
+            voiceChatterIntervalId = setInterval(playMuffledVoiceSyllables, 1850);
         }
 
         function stopSimulatedCallVoice() {
@@ -1310,16 +909,12 @@
                 clearInterval(voiceChatterIntervalId);
                 voiceChatterIntervalId = null;
             }
-            if (customVoiceAudioEl) {
-                customVoiceAudioEl.pause();
-                customVoiceAudioEl = null;
-            }
         }
 
         // ==========================================
-        // CALL SCHEDULING, STEALTH & TRIGGER FLOW
+        // CALL TRIGGER, STEALTH BLACKOUT & ACTIVE CALL
         // ==========================================
-        function updateLiveClock() {
+        function updateCallScreenClocks() {
             const now = new Date();
             const hours = now.getHours() % 12 || 12;
             const mins = String(now.getMinutes()).padStart(2, '0');
@@ -1328,32 +923,32 @@
             document.getElementById('live-clock-active').textContent = timeStr;
         }
 
-        function scheduleFakeCall() {
+        function syncCallScreenIdentity() {
+            document.getElementById('incoming-caller-name').textContent = state.callerName;
+            document.getElementById('incoming-subtitle').textContent = state.callerSub;
+            document.getElementById('active-caller-name').textContent = state.callerName;
+
+            const incAvatar = document.getElementById('incoming-avatar');
+            const actAvatar = document.getElementById('active-avatar');
+            incAvatar.className = `w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br ${state.avatarGradient} flex items-center justify-center text-4xl sm:text-5xl font-bold shadow-2xl mb-4 border border-white/20`;
+            actAvatar.className = `w-20 h-20 rounded-full bg-gradient-to-br ${state.avatarGradient} flex items-center justify-center text-3xl font-bold shadow-xl mb-3 border border-white/20`;
+            incAvatar.textContent = state.avatarEmoji;
+            actAvatar.textContent = state.avatarEmoji;
+        }
+
+        function triggerCallAction() {
             getAudioContext();
             if (isPreviewPlaying) toggleRingtonePreview();
 
-            const delaySec = parseInt(document.getElementById('custom-delay-input').value, 10) || 0;
-            const useStealth = document.getElementById('stealth-mode-checkbox').checked;
-
-            if (delaySec <= 0) {
-                startCallNow();
-                return;
-            }
-
-            requestWakeLock();
-
-            if (useStealth) {
-                enterStealthWaitingScreen(delaySec);
+            if (state.delaySeconds <= 0) {
+                launchIncomingCallOverlay();
             } else {
-                showToast(`Call scheduled in ${delaySec} seconds...`);
-                clearTimeout(scheduledTimeoutId);
-                scheduledTimeoutId = setTimeout(() => {
-                    startCallNow();
-                }, delaySec * 1000);
+                enterStealthCountdown(state.delaySeconds);
             }
         }
 
-        function enterStealthWaitingScreen(seconds) {
+        function enterStealthCountdown(seconds) {
+            requestWakeLock();
             const stealthEl = document.getElementById('stealth-overlay');
             const hintBox = document.getElementById('stealth-hint-box');
             const countNum = document.getElementById('stealth-countdown-num');
@@ -1365,7 +960,7 @@
 
             setTimeout(() => {
                 hintBox.classList.add('opacity-0');
-            }, 2200);
+            }, 2000);
 
             let remaining = seconds;
             countNum.textContent = remaining;
@@ -1380,85 +975,86 @@
                     clearInterval(stealthIntervalId);
                     stealthEl.classList.add('hidden');
                     stealthEl.classList.remove('flex');
-                    startCallNow();
+                    launchIncomingCallOverlay();
                 }
             }, 1000);
         }
 
         function cancelScheduledCall() {
             clearInterval(stealthIntervalId);
-            clearTimeout(scheduledTimeoutId);
             releaseWakeLock();
             const stealthEl = document.getElementById('stealth-overlay');
             stealthEl.classList.add('hidden');
             stealthEl.classList.remove('flex');
-            showToast("Scheduled call cancelled.");
+            showToast("Scheduled call cancelled");
         }
 
-        // Trigger Incoming Call Overlay (No browser fullscreen warning banner!)
-        function startCallNow() {
-            getAudioContext();
-            if (isPreviewPlaying) toggleRingtonePreview();
-            clearInterval(stealthIntervalId);
-            clearTimeout(scheduledTimeoutId);
-
-            syncPreview();
-            updateLiveClock();
-            resetSliderThumb();
+        function launchIncomingCallOverlay() {
+            syncCallScreenIdentity();
+            updateCallScreenClocks();
             requestWakeLock();
 
-            const incomingOverlay = document.getElementById('incoming-call-overlay');
-            incomingOverlay.classList.remove('hidden');
-            incomingOverlay.classList.add('flex');
+            const incomingEl = document.getElementById('incoming-call-overlay');
+            incomingEl.classList.remove('hidden');
+            incomingEl.classList.add('flex');
 
-            state.isRinging = true;
             startRingtone();
         }
 
-        // Answer Incoming Call
         function answerCall() {
             stopRingtone();
-            state.isRinging = false;
-            state.isCallActive = true;
+            const incomingEl = document.getElementById('incoming-call-overlay');
+            const activeEl = document.getElementById('active-call-overlay');
 
-            const incomingOverlay = document.getElementById('incoming-call-overlay');
-            const activeOverlay = document.getElementById('active-call-overlay');
+            incomingEl.classList.add('hidden');
+            incomingEl.classList.remove('flex');
 
-            incomingOverlay.classList.add('hidden');
-            incomingOverlay.classList.remove('flex');
+            activeEl.classList.remove('hidden');
+            activeEl.classList.add('flex');
 
-            activeOverlay.classList.remove('hidden');
-            activeOverlay.classList.add('flex');
-
-            let secondsElapsed = 0;
+            state.lastCallDurationSec = 0;
             const timerEl = document.getElementById('active-call-timer');
             timerEl.textContent = "00:00";
 
             clearInterval(activeCallIntervalId);
             activeCallIntervalId = setInterval(() => {
-                secondsElapsed++;
-                timerEl.textContent = formatDuration(secondsElapsed);
+                state.lastCallDurationSec++;
+                timerEl.textContent = formatDuration(state.lastCallDurationSec);
             }, 1000);
 
             startSimulatedCallVoice();
         }
 
-        // Decline or End Call
-        function endOrDeclineCall() {
+        function endOrDeclineCall(wasAnswered) {
             stopRingtone();
             stopSimulatedCallVoice();
             clearInterval(activeCallIntervalId);
             releaseWakeLock();
 
-            state.isRinging = false;
-            state.isCallActive = false;
-
             document.getElementById('incoming-call-overlay').classList.add('hidden');
             document.getElementById('incoming-call-overlay').classList.remove('flex');
             document.getElementById('active-call-overlay').classList.add('hidden');
             document.getElementById('active-call-overlay').classList.remove('flex');
-            document.getElementById('incoming-quick-feedback').classList.add('hidden');
-            toggleKeypadView(false);
+
+            if (wasAnswered) {
+                const summaryText = document.getElementById('post-call-summary-text');
+                summaryText.textContent = `Call with ${state.callerName} ended • Duration ${formatDuration(state.lastCallDurationSec)}`;
+                const modal = document.getElementById('post-call-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closePostCallModal() {
+            const modal = document.getElementById('post-call-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function toggleInCallBtn(btnEl) {
+            btnEl.classList.toggle('active-toggle');
+            const ctx = getAudioContext();
+            if (ctx) playSynthNote(520, ctx.currentTime, 0.05);
         }
 
         function formatDuration(sec) {
@@ -1467,98 +1063,15 @@
             return `${m}:${s}`;
         }
 
-        function triggerQuickReply(text) {
-            const box = document.getElementById('incoming-quick-feedback');
-            box.querySelector('div').textContent = text;
-            box.classList.remove('hidden');
-            setTimeout(() => {
-                endOrDeclineCall();
-                showToast(text);
-            }, 1000);
-        }
-
-        function toggleInCallBtn(btnEl) {
-            btnEl.classList.toggle('active-toggle');
-            const ctx = getAudioContext();
-            if (ctx) playSynthNote(520, ctx.currentTime, 0.05, 'sine');
-        }
-
-        function toggleKeypadView(show) {
-            const grid = document.getElementById('in-call-controls-grid');
-            const keypad = document.getElementById('in-call-keypad');
-            if (show) {
-                grid.classList.add('hidden');
-                keypad.classList.remove('hidden');
-                keypad.classList.add('flex');
-            } else {
-                grid.classList.remove('hidden');
-                keypad.classList.add('hidden');
-                keypad.classList.remove('flex');
-                document.getElementById('keypad-typed-display').textContent = "";
-            }
-        }
-
-        function pressDtmf(digit) {
-            const disp = document.getElementById('keypad-typed-display');
-            disp.textContent = (disp.textContent + digit).slice(-12);
-            const ctx = getAudioContext();
-            const freqMap = { '1': 697, '2': 740, '3': 780, '4': 820, '5': 860, '6': 900, '7': 940, '8': 980, '9': 1020, '*': 650, '0': 1060, '#': 1100 };
-            if (ctx) playSynthNote(freqMap[digit] || 800, ctx.currentTime, 0.09, 'sine');
-        }
-
         // ==========================================
-        // SLIDE TO ANSWER DRAG GESTURE
-        // ==========================================
-        let isDraggingSlide = false;
-        let slideStartX = 0;
-
-        function startSlideDrag(e) {
-            isDraggingSlide = true;
-            slideStartX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-            document.addEventListener('mousemove', onSlideMove);
-            document.addEventListener('touchmove', onSlideMove, { passive: false });
-            document.addEventListener('mouseup', endSlideDrag);
-            document.addEventListener('touchend', endSlideDrag);
-        }
-
-        function onSlideMove(e) {
-            if (!isDraggingSlide) return;
-            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-            const track = document.getElementById('slider-track');
-            const thumb = document.getElementById('slider-thumb');
-            const maxDrag = track.clientWidth - thumb.clientWidth - 12;
-            const delta = Math.max(0, Math.min(maxDrag, clientX - slideStartX));
-            thumb.style.transform = `translateX(${delta}px)`;
-
-            if (delta >= maxDrag * 0.85) {
-                endSlideDrag();
-                answerCall();
-            }
-        }
-
-        function endSlideDrag() {
-            if (!isDraggingSlide) return;
-            isDraggingSlide = false;
-            resetSliderThumb();
-            document.removeEventListener('mousemove', onSlideMove);
-            document.removeEventListener('touchmove', onSlideMove);
-            document.removeEventListener('mouseup', endSlideDrag);
-            document.removeEventListener('touchend', endSlideDrag);
-        }
-
-        function resetSliderThumb() {
-            const thumb = document.getElementById('slider-thumb');
-            if (thumb) thumb.style.transform = 'translateX(0px)';
-        }
-
-        // ==========================================
-        // VIRAL SHARE LINKS (WHATSAPP & CLIPBOARD)
+        // VIRAL WHATSAPP & LINK SHARING
         // ==========================================
         function getShareUrl() {
             const params = new URLSearchParams();
-            params.set('name', state.callerName);
-            params.set('sub', state.callerSub);
-            params.set('os', state.osTheme);
+            params.set('caller', state.selectedKey);
+            if (state.selectedKey === 'custom') {
+                params.set('name', state.callerName);
+            }
             return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
         }
 
@@ -1570,27 +1083,27 @@
             tempInput.select();
             document.execCommand('copy');
             document.body.removeChild(tempInput);
-            showToast("Preset link copied to clipboard!");
+            showToast("Link copied to clipboard!");
         }
 
         function shareOnWhatsApp() {
             const shareUrl = getShareUrl();
-            const text = encodeURIComponent(`Need to escape a boring meeting or awkward date? Trigger a realistic incoming call from "${state.callerName}" right on your phone: ${shareUrl}`);
+            const text = encodeURIComponent(`Need to escape an awkward situation or boring meeting? Trigger a 1-tap incoming call from "${state.callerName}" on your phone: ${shareUrl}`);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
+        // Load URL presets if shared
         window.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
-            if (params.has('name')) {
-                document.getElementById('caller-name-input').value = params.get('name');
+            const callerParam = params.get('caller');
+            if (callerParam && ['dad', 'mom', 'wife', 'custom'].includes(callerParam)) {
+                if (callerParam === 'custom' && params.get('name')) {
+                    document.getElementById('custom-caller-input').value = params.get('name');
+                }
+                selectCallerTile(callerParam);
+            } else {
+                selectCallerTile('dad');
             }
-            if (params.has('sub')) {
-                document.getElementById('caller-sub-input').value = params.get('sub');
-            }
-            if (params.has('os')) {
-                setOSTheme(params.get('os') === 'android' ? 'android' : 'ios');
-            }
-            syncPreview();
         });
     </script>
 </body>
