@@ -600,7 +600,7 @@
         let previewTimeoutId = null;
         let isPreviewPlaying = false;
         let audioCtx = null;
-        let wakeLockSentinel = null;
+        let Sentinel = null;
 
         // Initialize Web Audio Context on user gesture
         function getAudioContext() {
@@ -625,12 +625,12 @@
             }
         }
 
-        function releaseWakeLock() {
-            if (wakeLockSentinel) {
-                wakeLockSentinel.release().catch(() => {});
-                wakeLockSentinel = null;
-            }
-        }
+       function release() {
+         if (typeof wakeLockSentinel !== 'undefined' && wakeLockSentinel) {
+             wakeLockSentinel.release().catch(() => {});
+             wakeLockSentinel = null;
+         }
+     }
 
         // Dynamic Island Toast
         function showToast(msg) {
@@ -936,19 +936,48 @@
             actAvatar.textContent = state.avatarEmoji;
         }
 
-        function triggerCallAction() {
-            getAudioContext();
-            if (isPreviewPlaying) toggleRingtonePreview();
-
-            if (state.delaySeconds <= 0) {
-                launchIncomingCallOverlay();
-            } else {
-                enterStealthCountdown(state.delaySeconds);
+        function enterTrueFullscreen() {
+            const docEl = document.documentElement;
+            const req = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
+            if (req && !document.fullscreenElement && !document.webkitFullscreenElement) {
+                req.call(docEl).catch(() => {});
             }
+            // Hide the duplicate inner status bar so only your real phone top bar shows
+            const fakeStatusBar = document.querySelector('#incoming-call-overlay > div:first-child');
+            if (fakeStatusBar) fakeStatusBar.style.display = 'none';
         }
 
-        function enterStealthCountdown(seconds) {
-            requestWakeLock();
+        function triggerCallAction() {
+            // 1. Immediately hide the top browser address bar (fullscreen)
+            enterTrueFullscreen();
+
+            // 2. Warm up audio context & unlock MP3 on user tap
+            getAudioContext();
+            if (isPreviewPlaying) toggleRingtonePreview();
+            const style = document.getElementById('ringtone-select').value;
+            if (typeof mp3Files !== 'undefined' && mp3Files[style]) {
+                if (!window.customRingtoneAudio || !window.customRingtoneAudio.src.endsWith(mp3Files[style])) {
+                    window.customRingtoneAudio = new Audio(mp3Files[style]);
+                    window.customRingtoneAudio.loop = true;
+                }
+                window.customRingtoneAudio.muted = true;
+                window.customRingtoneAudio.play().then(() => {
+                    window.customRingtoneAudio.pause();
+                    window.customRingtoneAudio.currentTime = 0;
+                    window.customRingtoneAudio.muted = false;
+                }).catch(() => {
+                    window.customRingtoneAudio.muted = false;
+                });
+            }
+
+            // 3. Even on "Now (0s)", use a 3-second pitch-black screen so Chrome's
+            // bottom fullscreen popup disappears completely BEFORE the phone rings!
+            const effectiveDelay = state.delaySeconds <= 0 ? 3 : state.delaySeconds;
+            enterStealthCountdown(effectiveDelay, state.delaySeconds <= 0);
+        }
+
+        function enterStealthCountdown(seconds, isInstantStealth = false) {
+            if (typeof requestWakeLock === 'function') requestWakeLock();
             const stealthEl = document.getElementById('stealth-overlay');
             const hintBox = document.getElementById('stealth-hint-box');
             const countNum = document.getElementById('stealth-countdown-num');
@@ -956,11 +985,15 @@
 
             stealthEl.classList.remove('hidden');
             stealthEl.classList.add('flex');
-            hintBox.classList.remove('opacity-0');
 
-            setTimeout(() => {
+            if (isInstantStealth) {
                 hintBox.classList.add('opacity-0');
-            }, 2000);
+            } else {
+                hintBox.classList.remove('opacity-0');
+                setTimeout(() => {
+                    hintBox.classList.add('opacity-0');
+                }, 2000);
+            }
 
             let remaining = seconds;
             countNum.textContent = remaining;
@@ -982,7 +1015,10 @@
 
         function cancelScheduledCall() {
             clearInterval(stealthIntervalId);
-            releaseWakeLock();
+            if (typeof release === 'function') release();
+            if (document.fullscreenElement && document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            }
             const stealthEl = document.getElementById('stealth-overlay');
             stealthEl.classList.add('hidden');
             stealthEl.classList.remove('flex');
@@ -992,8 +1028,7 @@
         function launchIncomingCallOverlay() {
             syncCallScreenIdentity();
             updateCallScreenClocks();
-            requestWakeLock();
-
+            if (typeof requestWakeLock === 'function') requestWakeLock();
             const incomingEl = document.getElementById('incoming-call-overlay');
             incomingEl.classList.remove('hidden');
             incomingEl.classList.add('flex');
@@ -1029,7 +1064,7 @@
             stopRingtone();
             stopSimulatedCallVoice();
             clearInterval(activeCallIntervalId);
-            releaseWakeLock();
+            release();
 
             document.getElementById('incoming-call-overlay').classList.add('hidden');
             document.getElementById('incoming-call-overlay').classList.remove('flex');
