@@ -281,9 +281,28 @@
                                     <option value="android_pixel">Google Pixel Minimal Chime</option>
                                     <option value="classic_bell">Urgent Office Desk Phone</option>
                                     <option value="silent">Silent (Vibration Only)</option>
-                                    <option value="samsung">Samsung Galaxy (Over the Horizon)</option>
-                                    <option value="xiaomi">Xiaomi / Redmi (Mi Default Marimba)</option>
-                                    <option value="oneplus">OnePlus (Nordic Electronic Tune)</option>
+                                    // Play real uploaded MP3 files
+        const mp3Files = {
+            'ios_reflection': 'iphone.mp3',
+            'iphone': 'iphone.mp3',
+            'samsung': 'samsung.mp3',
+            'xiaomi': 'xiaomi.mp3'
+        };
+
+        if (mp3Files[style]) {
+            if (!window.customRingtoneAudio || !window.customRingtoneAudio.src.endsWith(mp3Files[style])) {
+                if (window.customRingtoneAudio) {
+                    window.customRingtoneAudio.pause();
+                }
+                window.customRingtoneAudio = new Audio(mp3Files[style]);
+                window.customRingtoneAudio.loop = true;
+            }
+            if (window.customRingtoneAudio.paused) {
+                window.customRingtoneAudio.currentTime = 0;
+                window.customRingtoneAudio.play().catch(e => console.log('Audio play:', e));
+            }
+            return;
+        }
                                 </select>
                             </div>
 
@@ -1101,7 +1120,10 @@ if (style === 'samsung') {
             }
         }
 
-        function stopRingtone() {
+        function stopRingtone(if (window.customRingtoneAudio) {
+            window.customRingtoneAudio.pause();
+            window.customRingtoneAudio.currentTime = 0;
+        }) {
             if (ringtoneLoopId) {
                 clearInterval(ringtoneLoopId);
                 ringtoneLoopId = null;
