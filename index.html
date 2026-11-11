@@ -399,11 +399,13 @@
                 <input id="wa-reply-sender" type="text" placeholder="Reply to name (optional)" class="col-span-5 bg-black/50 border border-white/10 rounded-lg px-2 py-1 text-[11px] text-zinc-300">
                 <input id="wa-reply-text" type="text" placeholder="Quoted message text (optional)" class="col-span-7 bg-black/50 border border-white/10 rounded-lg px-2 py-1 text-[11px] text-zinc-300">
             </div>
-            <div class="flex gap-1.5">
-                <input id="wa-msg-input" type="text" placeholder="Type message (or single emoji)..." onkeydown="if(event.key==='Enter') addWaMessage()" class="flex-1 bg-black/70 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500">
-                <input id="wa-msg-time" type="text" value="10:30" class="w-14 bg-black/70 border border-white/10 rounded-xl px-1.5 py-1.5 text-[11px] text-center text-zinc-300">
-                <button type="button" onclick="addWaMessage()" class="bg-[#21c063] hover:bg-[#1daa57] text-black font-bold px-3 py-1.5 rounded-xl text-xs transition active:scale-95">Add</button>
-            </div>
+          <div class="flex items-center">
+                    <svg class="h-5 w-[72px] shrink-0" viewBox="0 0 72 20">
+                        <text id="wa-phone-clock" x="0" y="10.5" dominant-baseline="central" fill="#e9edef" font-size="12" font-weight="600" font-family="Arial, sans-serif">10:30</text>
+                        <path transform="translate(36, 3) scale(0.58)" fill="#e9edef" fill-opacity="0.9" d="M12 2a10 10 0 0 0-8.66 15l-1.34 5 5.12-1.31A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.08-1.12l-.29-.18-3.04.78.81-2.96-.19-.3A8 8 0 1 1 12 20z"/>
+                        <circle cx="56" cy="10.5" r="1.3" fill="#e9edef" fill-opacity="0.8"/>
+                    </svg>
+                </div>
             <div class="flex justify-between items-center mt-1.5 pt-1.5 border-t border-white/5">
                 <button type="button" onclick="addWaDeletedMessage()" class="text-[11px] text-zinc-300 hover:text-white bg-zinc-800/90 px-2.5 py-1 rounded-lg">🚫 Add "This message was deleted"</button>
                 <span class="text-[10px] text-zinc-500">Tap any bubble to delete</span>
@@ -507,7 +509,11 @@
     let waSender = 'them';
     let hasCustomWaPhoto = false;
 
-    const doubleCheckSvg = `<svg class="w-[15px] h-[11px] inline-block text-[#53bdeb] ml-1 -translate-y-[1px] shrink-0" viewBox="0 0 16 11" fill="none"><path d="M11.071.653a.457.457 0 0 0-.304-.102.493.493 0 0 0-.381.178l-6.19 7.636-2.405-2.272a.463.463 0 0 0-.336-.146.47.47 0 0 0-.343.146l-.311.31a.445.445 0 0 0-.14.337c0 .136.047.25.14.343l2.996 2.996a.724.724 0 0 0 .501.203.697.697 0 0 0 .546-.266l6.646-8.417a.497.497 0 0 0 .108-.299.441.441 0 0 0-.19-.374l-.337-.273zm3.613 0a.457.457 0 0 0-.304-.102.493.493 0 0 0-.381.178l-6.19 7.636-1.2-1.134-.66.813 1.67 1.67a.724.724 0 0 0 .502.203.697.697 0 0 0 .546-.266l6.646-8.417a.497.497 0 0 0 .108-.299.441.441 0 0 0-.19-.374l-.347-.273z" fill="currentColor"/></svg>`;
+   function renderTimeAndTicks(time, isMe) {
+        const w = isMe ? 52 : 34;
+        const ticks = isMe ? `<path transform="translate(35, 2)" d="M11.071.653a.457.457 0 0 0-.304-.102.493.493 0 0 0-.381.178l-6.19 7.636-2.405-2.272a.463.463 0 0 0-.336-.146.47.47 0 0 0-.343.146l-.311.31a.445.445 0 0 0-.14.337c0 .136.047.25.14.343l2.996 2.996a.724.724 0 0 0 .501.203.697.697 0 0 0 .546-.266l6.646-8.417a.497.497 0 0 0 .108-.299.441.441 0 0 0-.19-.374l-.337-.273zm3.613 0a.457.457 0 0 0-.304-.102.493.493 0 0 0-.381.178l-6.19 7.636-1.2-1.134-.66.813 1.67 1.67a.724.724 0 0 0 .502.203.697.697 0 0 0 .546-.266l6.646-8.417a.497.497 0 0 0 .108-.299.441.441 0 0 0-.19-.374l-.347-.273z" fill="#53bdeb"/>` : '';
+        return `<svg class="h-[14px] shrink-0 select-none inline-block" style="width:${w}px" viewBox="0 0 ${w} 14"><text x="${isMe ? 31 : w}" y="8" text-anchor="end" dominant-baseline="central" fill="#8696a0" font-size="11" font-family="Arial, sans-serif">${time}</text>${ticks}</svg>`;
+    }
 
     const defaultWaMessages = [
         { sender: 'them', text: 'Hi', time: '10:29' },
@@ -516,13 +522,13 @@
     ];
 
     function initWaModule() {
+        document.body.classList.add('flex-col');
         const switcher = document.getElementById('funlify-mode-switcher');
         if (switcher && document.body.firstChild !== switcher) {
             document.body.insertBefore(switcher, document.body.firstChild);
         }
         defaultWaMessages.forEach(m => renderWaBubble(m));
     }
-
     function setQuickWaContact(presetName) {
         hasCustomWaPhoto = false;
         document.getElementById('wa-contact-name').value = presetName;
@@ -649,17 +655,14 @@
                 </div>
             `;
         } else {
-            bubble.innerHTML = `
+                bubble.innerHTML = `
                 ${replyHtml}
-                <div class="flex items-end justify-between gap-2.5">
+                <div class="flex items-end justify-between gap-2">
                     <span class="break-words text-left inline-block -translate-y-[3.5px]">${msg.text.replace(/</g, '&lt;')}</span>
-                    <span class="text-[11px] text-[#8696a0] shrink-0 inline-flex items-center select-none leading-none">
-                        <span class="inline-block -translate-y-[1px]">${msg.time}</span>${isMe ? doubleCheckSvg : ''}
-                    </span>
+                    ${renderTimeAndTicks(msg.time, isMe)}
                 </div>
             `;
         }
-
         list.appendChild(bubble);
         list.scrollTop = list.scrollHeight;
     }
