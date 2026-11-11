@@ -348,7 +348,14 @@
         </div>
 
     </main>
-<!-- ==================== WHATSAPP CHAT GENERATOR MODULE (CALIBRATED ALIGNMENT) ==================== -->
+<!-- ==================== TOP MODE SWITCHER + WHATSAPP GENERATOR MODULE ==================== -->
+<div id="funlify-mode-switcher" class="w-full max-w-[400px] mx-auto pt-3 px-2 flex justify-center z-30 relative">
+    <div class="bg-zinc-900/90 border border-white/10 p-1 rounded-2xl flex w-full shadow-lg">
+        <button type="button" id="tab-btn-call" onclick="switchFunlifyTab('call')" class="flex-1 py-1.5 rounded-xl text-xs font-bold bg-[#34C759] text-black transition">📞 Fake Call</button>
+        <button type="button" id="tab-btn-wa" onclick="switchFunlifyTab('wa')" class="flex-1 py-1.5 rounded-xl text-xs font-bold text-zinc-400 hover:text-white transition">💬 WhatsApp Prank</button>
+    </div>
+</div>
+
 <div id="wa-generator-section" class="hidden w-full max-w-[400px] mx-auto px-2 pb-10 pt-2 text-white">
     <div class="bg-[#121316]/95 backdrop-blur-xl border border-white/10 rounded-[26px] p-3 shadow-2xl">
         
@@ -421,7 +428,6 @@
                         <span class="w-[2px] h-2.5 bg-white/90 rounded-sm"></span>
                         <span class="w-[2px] h-3 bg-white/90 rounded-sm"></span>
                     </div>
-                    <!-- Pure SVG Battery Pill (Never shifts on export) -->
                     <svg class="w-[28px] h-[16px] shrink-0" viewBox="0 0 28 16">
                         <rect width="28" height="16" rx="8" fill="#e9edef"/>
                         <text id="wa-battery-num" x="14" y="8.5" text-anchor="middle" dominant-baseline="central" fill="#0b141a" font-size="10" font-weight="700" font-family="Arial, sans-serif">85</text>
@@ -433,14 +439,12 @@
             <div class="bg-[#0b141a] px-2.5 py-2 flex items-center justify-between border-b border-white/[0.06]">
                 <div class="flex items-center gap-2.5 min-w-0 flex-1">
                     <svg class="w-5 h-5 text-[#e9edef] shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7-7l-7 7 7 7"/></svg>
-                    <!-- Pure SVG Avatar (Centered J) -->
                     <div id="wa-avatar-wrap" class="w-9 h-9 rounded-full bg-[#00a884] overflow-hidden shrink-0 flex items-center justify-center">
                         <svg class="w-9 h-9" viewBox="0 0 36 36">
                             <circle cx="18" cy="18" r="18" fill="#00a884"/>
                             <text id="wa-avatar-letter" x="18" y="18" text-anchor="middle" dominant-baseline="central" fill="#0b141a" font-size="16" font-weight="700" font-family="Arial, sans-serif">J</text>
                         </svg>
                     </div>
-                    <!-- Contact Name & Status (No clipping overflow) -->
                     <div class="min-w-0 flex-1 pr-1 flex flex-col justify-center -translate-y-[3px]">
                         <div id="wa-preview-name" class="text-[15.5px] font-semibold text-[#e9edef] leading-[20px] whitespace-nowrap">John Doe</div>
                         <div id="wa-preview-status" class="text-[11.5px] text-[#8696a0] leading-[14px]">online</div>
@@ -455,7 +459,6 @@
 
             <!-- Authentic Dense WhatsApp Doodle Wallpaper & Chat Stream -->
             <div id="wa-messages-list" class="px-3 py-2.5 min-h-[380px] max-h-[480px] overflow-y-auto flex flex-col gap-1.5 relative" style="background-color: #0b141a; background-image: url(&quot;data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23e9edef' stroke-opacity='0.045' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M25 20c-6 2-10 9-8 16 2 7 9 11 16 9-5 1-10-2-11-7-1-5 1-10 3-18z'/%3E%3Crect x='65' y='14' width='26' height='18' rx='3'/%3E%3Cpath d='M65 16l13 10 13-10'/%3E%3Ccircle cx='135' cy='28' r='11'/%3E%3Cellipse cx='135' cy='28' rx='18' ry='5' transform='rotate(-20 135 28)'/%3E%3Cpath d='M22 75h18v12a9 9 0 0 1-18 0V75zm18 3h4a3 3 0 0 1 0 6h-4'/%3E%3Cpath d='M82 68c0-4 6-4 6 0 0-4 6-4 6 0 0 6-6 10-6 10s-6-4-6-10z'/%3E%3Cpath d='M125 78l18-5v16m-18-11v16'/%3E%3Ccircle cx='122' cy='94' r='3'/%3E%3Ccircle cx='140' cy='89' r='3'/%3E%3Ccircle cx='45' cy='135' r='12'/%3E%3Cpath d='M40 133c1-1 3-1 4 0m4 0c1-1 3-1 4 0m-10 5c2 3 6 3 8 0'/%3E%3Cpolygon points='100,122 103,130 111,130 105,135 107,143 100,138 93,143 95,135 89,130 97,130'/%3E%3Cpath d='M145 130l18 8-18 8 4-8-4-8z'/%3E%3Cpath d='M15 162c6-5 14-5 20 0'/%3E%3Ccircle cx='72' cy='165' r='5'/%3E%3C/g%3E%3C/svg%3E&quot;);">
-                <!-- Date Pill (Compensated padding for centered export) -->
                 <div class="self-center my-1">
                     <div class="bg-[#182229] text-[#8696a0] text-[11.5px] font-medium px-3 pt-0.5 pb-2 rounded-lg shadow-sm inline-block">
                         <span id="wa-date-pill">Today</span>
@@ -474,11 +477,9 @@
                         </svg>
                     </div>
                     <div class="flex items-center gap-3.5 pr-1 text-[#8696a0]">
-                        <!-- Non-Rotated Native Paperclip SVG (Stays strictly inside bar) -->
                         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6"/>
                         </svg>
-                        <!-- Camera SVG -->
                         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                     </div>
                 </div>
@@ -515,17 +516,8 @@
     ];
 
     function initWaModule() {
-        const firstMainContainer = document.querySelector('main, .max-w-md, body > div:first-of-type');
-        if (firstMainContainer && !document.getElementById('funlify-mode-switcher')) {
-            const switcher = document.createElement('div');
-            switcher.id = 'funlify-mode-switcher';
-            switcher.className = 'w-full max-w-[400px] mx-auto pt-3 px-2 flex justify-center z-30 relative';
-            switcher.innerHTML = `
-                <div class="bg-zinc-900/90 border border-white/10 p-1 rounded-2xl flex w-full shadow-lg">
-                    <button type="button" id="tab-btn-call" onclick="switchFunlifyTab('call')" class="flex-1 py-1.5 rounded-xl text-xs font-bold bg-[#34C759] text-black transition">📞 Fake Call</button>
-                    <button type="button" id="tab-btn-wa" onclick="switchFunlifyTab('wa')" class="flex-1 py-1.5 rounded-xl text-xs font-bold text-zinc-400 hover:text-white transition">💬 WhatsApp Prank</button>
-                </div>
-            `;
+        const switcher = document.getElementById('funlify-mode-switcher');
+        if (switcher && document.body.firstChild !== switcher) {
             document.body.insertBefore(switcher, document.body.firstChild);
         }
         defaultWaMessages.forEach(m => renderWaBubble(m));
@@ -548,10 +540,10 @@
         const waSec = document.getElementById('wa-generator-section');
         const btnCall = document.getElementById('tab-btn-call');
         const btnWa = document.getElementById('tab-btn-wa');
-        const callerWrap = document.querySelector('main') || document.getElementById('app-container') || waSec.previousElementSibling;
+        const callerWrap = document.querySelector('main');
 
         if (mode === 'wa') {
-            if (callerWrap && callerWrap.id !== 'funlify-mode-switcher') callerWrap.classList.add('hidden');
+            if (callerWrap) callerWrap.classList.add('hidden');
             waSec.classList.remove('hidden');
             btnWa.className = 'flex-1 py-1.5 rounded-xl text-xs font-bold bg-[#21c063] text-black transition';
             btnCall.className = 'flex-1 py-1.5 rounded-xl text-xs font-bold text-zinc-400 hover:text-white transition';
@@ -635,7 +627,7 @@
         bubble.onclick = () => bubble.remove();
 
         let replyHtml = '';
-       if (msg.replySender && msg.replyText) {
+        if (msg.replySender && msg.replyText) {
             const barColor = msg.replySender.toLowerCase() === 'you' ? '#21c063' : '#53bdeb';
             replyHtml = `
                 <div class="bg-black/25 rounded-md pl-2.5 pr-2 pt-0.5 pb-2.5 mb-1.5 relative overflow-hidden text-left">
@@ -666,7 +658,6 @@
                     </span>
                 </div>
             `;
-        }
         }
 
         list.appendChild(bubble);
@@ -722,7 +713,11 @@
         }
     }
 
-    window.addEventListener('DOMContentLoaded', initWaModule);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initWaModule);
+    } else {
+        initWaModule();
+    }
 </script>
     <!-- Minimal SEO & Compliance Footer -->
     <footer class="py-3 text-center text-[11px] text-zinc-600 px-4">
